@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 1rem;
 }
 
@@ -33,10 +33,6 @@ th {
   vertical-align: top;
 }
 
-td {
-  width: 60%;
-}
-
 td.mission {
   font-size: 22px;
   font-weight: 600;
@@ -47,9 +43,8 @@ td.lsp {
   font-style: italic;
 }
 
-
 td.small {
-  font-size: 1px;
+  font-size: 11px;
 }
 
 td.valore {
