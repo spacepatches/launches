@@ -39,10 +39,17 @@ td {
 
 td.mission {
   font-size: 22px;
+  font-weight: 600;
 }
 
+td.lsp {
+  font-size: 12px;
+  font-style: italic;
+}
+
+
 td.small {
-  font-size: 11px;
+  font-size: 1px;
 }
 
 td.valore {
