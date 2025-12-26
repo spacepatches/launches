@@ -22,7 +22,8 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
+  text-align: center;
 }
 
 table th,
@@ -39,17 +40,17 @@ th {
 }
 
 td.mission {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 td.lsp {
-  font-size: 12px;
+  font-size: 14px;
   font-style: italic;
 }
 
 td.small {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 td.valore {
