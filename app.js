@@ -1,7 +1,11 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
@@ -15,7 +19,7 @@ form.addEventListener("submit", e => {
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
 
-  let query = supabase
+  let query = supabaseClient
     .from("launch_ref")
     .select(`
       id,
@@ -46,8 +50,8 @@ async function loadLaunches(lsp) {
   const { data, error } = await query;
 
   if (error) {
-    grid.innerHTML = "Errore nel caricamento dati";
     console.error(error);
+    grid.innerHTML = "Errore nel caricamento dati";
     return;
   }
 
@@ -100,5 +104,5 @@ function renderLaunches(launches) {
   });
 }
 
-// Primo caricamento
+// caricamento iniziale
 loadLaunches();
