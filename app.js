@@ -88,6 +88,7 @@ function renderLaunches(launches) {
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count_year ?? ""}</td>
         <tr><td class="small">${l.status_abbrev || ""} (${l.orbit_abbrev || ""})</td></tr>
+        <tr><td class="small">{launcher_stage.landing_location_abbrev == TRUE ? ` Success` :""})${launcher_stage.landing_location_abbrev ? ` (${launcher_stage.landing_location_abbrev})` : ""}</td></tr>
       </table>
     `;
 
