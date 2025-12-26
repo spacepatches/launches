@@ -21,8 +21,10 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
 }
+
 
 th {
   text-align: left;
@@ -33,6 +35,18 @@ th {
 
 td {
   width: 60%;
+}
+
+td.mission {
+  font-size: 22px;
+}
+
+td.small {
+  font-size: 11px;
+}
+
+td.valore {
+  text-align: center;
 }
 
 .patch img {
