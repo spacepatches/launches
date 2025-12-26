@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Launch Viewer</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" media="print" href="print.css">
+
+  <!-- Supabase JS -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+  <form id="filters" class="filters">
+    <label for="lsp">LSP:</label>
+    <input type="text" id="lsp" placeholder="ESA, NASA, SpaceX…">
+    <button type="submit">Filtra</button>
+  </form>
+
+  <div id="grid" class="grid"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

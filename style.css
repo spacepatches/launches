@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 1rem;
+}
+
+.filters {
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.launch-card {
+  border: 1px solid #bbb;
+  padding: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th {
+  text-align: left;
+  width: 40%;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+td {
+  width: 60%;
+}
+
+.patch img {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+}

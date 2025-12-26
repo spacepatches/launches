@@ -1,0 +1,13 @@
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+.filters {
+  display: none;
+}
+
+.launch-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
