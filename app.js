@@ -84,7 +84,7 @@ function renderLaunches(launches) {
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td>${date}</td></tr>
         <tr><td>${l.location_name || ""}</td></tr>
-        <tr><td>${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""} ${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
+        <tr><td>${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count_year ?? ""}</td>
         <tr><td class="small">${l.status_abbrev || ""} (${l.orbit_abbrev || ""})</td></tr>
