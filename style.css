@@ -1,6 +1,9 @@
 body {
+  background-color: #000000; /* nero */
+  color: #ffffff; /* testo bianco per contrasto */
+  margin: 0; /* evita spazi vuoti intorno alla pagina */
+  padding: 0;
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 1rem;
 }
 
 .filters {
@@ -14,13 +17,14 @@ body {
 }
 
 .launch-card {
-  border: 1px solid #bbb;
+  border: 0px solid #bbb;
   padding: 0.5rem;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   text-align: center;
