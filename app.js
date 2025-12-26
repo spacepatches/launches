@@ -37,7 +37,7 @@ async function loadLaunches(lsp) {
         serial_number,
         flights,
 		landing_success,
-		landing_location_abbreaviation
+		landing_location_abbrev
       ),
       space_patch (
         image_url
