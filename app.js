@@ -81,22 +81,13 @@ function renderLaunches(launches) {
             ${patch ? `<img src="${patch}">` : ""}
           </td>
         </tr>
-        <tr><th>Mission</th><td>${l.mission_name || ""}</td></tr>
-        <tr><th>Date</th><td>${date}</td></tr>
-        <tr><th>Location</th><td>${l.location_name || ""}</td></tr>
-        <tr><th>Rocket</th><td>${l.rocket_full_name || ""}</td></tr>
-        <tr><th>Stage</th>
-            <td>${stage.serial_number || ""} – ${stage.flights ?? ""}</td>
-        </tr>
-        <tr><th>LSP</th><td>${l.lsp_name || ""}</td></tr>
-        <tr><th>Orbital</th>
-            <td>2025 – ${l.orbital_launch_attempt_count_year ?? ""}</td>
-        </tr>
-        <tr><th>Agency</th>
-            <td>${l.lsp_abbrev || ""} – ${l.agency_launch_attempt_count_year ?? ""}</td>
-        </tr>
-        <tr><th>Status</th><td>${l.status_abbrev || ""}</td></tr>
-        <tr><th>Orbit</th><td>${l.orbit_abbrev || ""}</td></tr>
+        <tr><td>${l.mission_name || ""}</td></tr>
+        <tr><td>${date}</td></tr>
+        <tr><td>${l.location_name || ""}</td></tr>
+        <tr><td>${l.rocket_full_name || ""} - ${stage.serial_number || ""}.${stage.flights ?? ""}</td></tr>
+        <tr><td>${l.lsp_name || ""}</td></tr>
+        <tr><td>2025–${l.orbital_launch_attempt_count_year ?? ""} ${l.lsp_abbrev || ""} – ${l.agency_launch_attempt_count_year ?? ""}</td>
+        <tr><td>${l.status_abbrev || ""} (${l.orbit_abbrev || ""})</td></tr>
       </table>
     `;
 
