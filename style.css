@@ -25,6 +25,11 @@ table {
   font-size: 11px;
 }
 
+table th,
+table td {
+  text-align: center;
+}
+
 
 th {
   text-align: left;
