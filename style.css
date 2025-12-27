@@ -23,8 +23,7 @@ body {
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  
+  border-collapse: collapse;  
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   text-align: center;
@@ -49,12 +48,25 @@ td.mission {
 }
 
 td.lsp {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+td.date {
   font-size: 16px;
-  font-style: italic;
+}
+
+td.rocket {
+  font-size: 14px;
 }
 
 td.small {
-  font-size: 13px;
+  font-size: 12px;
+}
+
+td.description {
+  font-size: 11px;
+  font-style: italic;
 }
 
 td.valore {
