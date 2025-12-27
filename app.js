@@ -11,6 +11,9 @@ const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
+new Date(l.net) <= new Date()
+l.space_patch?.image_url
+
 form.addEventListener("submit", e => {
   e.preventDefault();
   loadLaunches(lspInput.value.trim());
@@ -63,9 +66,12 @@ function renderLaunches(launches) {
 
   const oggi = new Date();
 
-  launches
-    .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI
-    .forEach(l => {
+launches
+  .filter(l =>
+    new Date(l.net) <= oggi &&                 // esclude lanci futuri
+    l.space_patch?.image_url                   // include solo se esiste il patch
+  )
+  .forEach(l => {
     const stage = l.launcher_stage?.[0] || {};
     const patch = l.space_patch?.image_url || "";
 
