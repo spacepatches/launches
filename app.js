@@ -68,10 +68,12 @@ function renderLaunches(launches) {
 
 launches
   .filter(l =>
-    new Date(l.net) <= oggi &&                 // esclude lanci futuri
-    l.space_patch?.image_url                   // include solo se esiste il patch
+    new Date(l.net) <= oggi &&        // no lanci futuri
+    l.space_patch?.image_url          // solo con mission patch
   )
+  .sort((a, b) => new Date(b.net) - new Date(a.net)) // ⬅️ PIÙ RECENTE → PIÙ VECCHIO
   .forEach(l => {
+	  
     const stage = l.launcher_stage?.[0] || {};
     const patch = l.space_patch?.image_url || "";
 
@@ -84,28 +86,36 @@ launches
     const card = document.createElement("div");
     card.className = "launch-card";
 
-    card.innerHTML = `
-      <table>
-        <tr>
+card.innerHTML = `
+        <table>
+          <tr>
             <td class="patch">
               <img src="${patch}">
             </td>
-        </tr>
-        <tr><td class="mission">${l.mission_name || ""}</td></tr>
-		<tr><td>${date}</td></tr>
-        <tr><td>${l.location_name || ""}</td></tr>
-        <tr><td>${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
-        <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
-        <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count_year ?? ""}</td>
-        <tr><td class="small">${l.status_abbrev || ""} (${l.orbit_abbrev || ""})</td></tr>
-      </table>
-    `;
+          </tr>
+          <tr><td class="mission">${l.mission_name || ""}</td></tr>
+          <tr><td>${date}</td></tr>
+          <tr><td>${l.location_name || ""}</td></tr>
+          <tr><td>
+            ${l.rocket_full_name || ""}
+            ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}
+            ${stage.flights != null ? `.${stage.flights}` : ""}
+          </td></tr>
+          <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
+          <tr><td class="small">
+            2025–${l.orbital_launch_attempt_count_year ?? ""},
+            ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count_year ?? ""}
+          </td></tr>
+          <tr><td class="small">
+            ${l.status_abbrev || ""} (${l.orbit_abbrev || ""})
+          </td></tr>
+        </table>
+      `;
 
-    grid.appendChild(card);
-  });
+      grid.appendChild(card);
+    });
 }
 
 // caricamento iniziale
-loadLaunches();
+//loadLaunches();
 
-//        <tr><td class="small">${launcher_stage.landing_success === true ? "Success" : ""}${launcher_stage.landing_location_abbrev ? ` (${launcher_stage.landing_location_abbrev})` : ""}</td></tr>
