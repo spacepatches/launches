@@ -67,7 +67,7 @@ function renderLaunches(launches) {
     .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI
     .forEach(l => {
     const stage = l.launcher_stage?.[0] || {};
-    const patch = l.space_patch?.image_url || "";
+//    const patch = l.space_patch?.image_url || "";
 
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
@@ -81,9 +81,6 @@ function renderLaunches(launches) {
     card.innerHTML = `
       <table>
         <tr>
-          <td colspan="1" class="patch">
-            ${patch ? `<img src="${patch}">` : ""}
-          </td>
         </tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td>${date}</td></tr>
@@ -101,5 +98,3 @@ function renderLaunches(launches) {
 
 // caricamento iniziale
 loadLaunches();
-
-//        <tr><td class="small">${launcher_stage.landing_success === true ? "Success" : ""}${launcher_stage.landing_location_abbrev ? ` (${launcher_stage.landing_location_abbrev})` : ""}</td></tr>
