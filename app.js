@@ -75,7 +75,7 @@ launches
   .forEach(l => {
 	  
     const stage = l.launcher_stage?.[0] || {};
-    const patch = l.space_patch?.image_url || "";
+//    const patch = l.space_patch?.image_url || "";
 
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
