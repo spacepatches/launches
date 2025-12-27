@@ -87,9 +87,9 @@ launches
     card.innerHTML = `
       <table>
         <tr>
-          <td colspan="1" class="patch">
-            ${patch} ? `<img src="${patch}">` : ""}
-          </td>
+            <td class="patch">
+              <img src="${patch}">
+            </td>
         </tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td>${date}</td></tr>
