@@ -34,7 +34,7 @@ let query = supabaseClient
     status_abbrev,
     orbit_abbrev,
     orbital_launch_attempt_count_year,
-    agency_launch_attempt_count_year,
+    agency_launch_attempt_count,
     launcher_stage (
       serial_number,
       flights
@@ -82,8 +82,7 @@ function renderLaunches(launches) {
 
     card.innerHTML = `
       <table>
-        <tr>
-        </tr>
+        <tr><td class="patch"><img src="${patch}"></td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td class="date">${date}</td></tr>
@@ -93,7 +92,9 @@ function renderLaunches(launches) {
         <tr>
         </tr>
         <tr><td class="description">${l.mission_description || ""}</td></tr>
-        <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count_year ?? ""}</td>
+        <tr>
+        </tr>
+        <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}</td>
         <tr><td class="small">${l.status_abbrev || ""} (${l.orbit_abbrev || ""})</td></tr>
       </table>
     `;
