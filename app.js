@@ -22,29 +22,29 @@ form.addEventListener("submit", e => {
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
 
-  let query = supabaseClient
-    .from("launch_ref")
-    .select(`
-      id,
-      mission_name,
-      net,
-      location_name,
-      rocket_full_name,
-      lsp_name,
-      lsp_abbrev,
-      status_abbrev,
-      orbit_abbrev,
-      orbital_launch_attempt_count_year,
-      agency_launch_attempt_count_year,
-      launcher_stage (
-        serial_number,
-        flights
-      ),
-      space_patch (
-        image_url
-      )
-    `)
-    .order("net");
+let query = supabaseClient
+  .from("launch_ref")
+  .select(`
+    id,
+    mission_name,
+    net,
+    location_name,
+    rocket_full_name,
+    lsp_name,
+    lsp_abbrev,
+    status_abbrev,
+    orbit_abbrev,
+    orbital_launch_attempt_count_year,
+    agency_launch_attempt_count_year,
+    launcher_stage (
+      serial_number,
+      flights
+    ),
+    space_patch!inner (
+      image_url
+    )
+  `)
+  .order("net", { ascending: false });
 
   if (lsp) {
     query = query.eq("lsp_abbrev", lsp);
