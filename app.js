@@ -69,13 +69,13 @@ function renderLaunches(launches) {
 launches
   .filter(l =>
     new Date(l.net) <= oggi &&        // no lanci futuri
-//    l.space_patch?.image_url          // solo con mission patch
+	l.space_patch?.[0]?.image_url          // solo con mission patch
   )
   .sort((a, b) => new Date(b.net) - new Date(a.net)) // ⬅️ PIÙ RECENTE → PIÙ VECCHIO
   .forEach(l => {
 	  
     const stage = l.launcher_stage?.[0] || {};
-//    const patch = l.space_patch?.image_url || "";
+	const patch = l.space_patch?.[0]?.image_url || "";
 
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
@@ -118,4 +118,3 @@ card.innerHTML = `
 
 // caricamento iniziale
 loadLaunches();
-
