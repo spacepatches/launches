@@ -35,9 +35,7 @@ async function loadLaunches(lsp) {
       agency_launch_attempt_count_year,
       launcher_stage (
         serial_number,
-        flights,
-		landing_success,
-		landing_location_abbrev
+        flights
       ),
       space_patch (
         image_url
