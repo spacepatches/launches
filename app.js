@@ -74,7 +74,9 @@ function renderLaunches(launches) {
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
       month: "short",
-      year: "numeric"
+      year: "numeric",
+	  hour: "2-digit",
+      minute: "2-digit"
     });
 
     const card = document.createElement("div");
@@ -85,7 +87,7 @@ function renderLaunches(launches) {
         <tr><td class="patch"><img src="${patch}"></td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
-		<tr><td class="date">${date}</td></tr>
+		<tr><td class="date">${date} UTC</td></tr>
         <tr><td>${l.pad_name || ""}</td></tr>
         <tr><td>${l.location_name || ""}</td></tr>
         <tr><td class="rocket">${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
