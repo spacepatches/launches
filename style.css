@@ -79,7 +79,8 @@ td.patch {
 }
 
 td.patch img {
-  max-width: 600px;   /* larghezza massima */
+  max-width: 300px;   /* larghezza massima */
+/*  max-height: 300px;  /* altezza massima */
   width: 100%;        /* si adatta al contenitore */
   height: auto;       /* mantiene proporzioni */
   display: inline-block;
