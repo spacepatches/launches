@@ -117,5 +117,5 @@ card.innerHTML = `
 }
 
 // caricamento iniziale
-//loadLaunches();
+loadLaunches();
 
