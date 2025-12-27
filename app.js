@@ -11,8 +11,6 @@ const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
-new Date(l.net) <= new Date()
-
 form.addEventListener("submit", e => {
   e.preventDefault();
   loadLaunches(lspInput.value.trim());
