@@ -46,7 +46,7 @@ let query = supabaseClient
     orbital_launch_attempt_count_year,
     agency_launch_attempt_count,
 	info_url,
-	vid,url,
+	vid_url,
     launcher_stage (
       serial_number,
       flights,
