@@ -72,6 +72,11 @@ td.description {
   font-style: italic;
 }
 
+td.link {
+  font-size: 13px;
+  font-weight: 500;
+}
+
 td.valore {
   text-align: center;
 }
