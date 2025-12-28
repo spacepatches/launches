@@ -12,8 +12,9 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+/*  grid-template-columns: repeat(2, 1fr); */
+  grid-template-columns: repeat(auto-fill, 500px);
+  gap: 2px;
 }
 
 .launch-card {
@@ -82,9 +83,6 @@ td.patch {
   border: 2px solid #666;
   border-radius: 16px;
   padding: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px;
   justify-content: center;
   align-items: center;
 }
