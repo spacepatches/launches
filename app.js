@@ -26,6 +26,10 @@ form.addEventListener("submit", e => {
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
 
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
+
 let query = supabaseClient
   .from("launch_ref")
   .select(`
@@ -51,6 +55,7 @@ let query = supabaseClient
       image_url
     )
   `)
+  .gte("net", thirtyDaysAgoISO)   // ⬅️ SOLO ultimi 30 giorni
   .order("net", { ascending: false });
 
 
