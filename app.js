@@ -39,7 +39,7 @@ let query = supabaseClient
       serial_number,
       flights
     ),
-    space_patch!inner (
+    space_patch (
       image_url
     )
   `)
@@ -104,3 +104,5 @@ function renderLaunches(launches) {
 
 // caricamento iniziale
 loadLaunches();
+
+//    space_patch!inner (
