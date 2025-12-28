@@ -12,7 +12,7 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
@@ -37,7 +37,7 @@ table td {
 
 th {
   text-align: left;
-  width: 40%;
+  width: 50%;
   font-weight: normal;
   vertical-align: top;
 }
@@ -79,7 +79,7 @@ td.patch {
 }
 
 td.patch img {
-  max-height: 200px;   /* larghezza massima */
+  max-height: 300px;   /* larghezza massima */
 /*  max-height: 300px;  /* altezza massima */
   width: 100%;        /* si adatta al contenitore */
   width: auto;       /* mantiene proporzioni */
