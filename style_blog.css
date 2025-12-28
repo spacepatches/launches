@@ -1,0 +1,91 @@
+body {
+  background-color: #000000; /* nero */
+  color: #ffffff; /* testo bianco per contrasto */
+  margin: 0; /* evita spazi vuoti intorno alla pagina */
+  padding: 0;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.filters {
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.launch-card {
+  border: 0px solid #bbb;
+  padding: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;  
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  text-align: center;
+}
+
+table th,
+table td {
+  text-align: center;
+}
+
+
+th {
+  text-align: left;
+  width: 40%;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+td.mission {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+td.lsp {
+  font-size: 18px;
+}
+
+td.date {
+  font-size: 16px;
+}
+
+td.rocket {
+  font-size: 16px;
+}
+
+td.small {
+  font-size: 12px;
+}
+
+td.description {
+  font-size: 11px;
+  font-style: italic;
+}
+
+td.valore {
+  text-align: center;
+}
+
+td.patch {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px;
+}
+
+td.patch img {
+  max-height: 300px;   /* larghezza massima */
+/*  max-height: 300px;  /* altezza massima */
+  width: 100%;        /* si adatta al contenitore */
+  width: auto;       /* mantiene proporzioni */
+  display: inline-block;
+/*  border: 1px solid rgba(255, 255, 255, 0.25); /* grigio chiaro su sfondo scuro */
+/*  border-radius: 4px;                          /* leggero arrotondamento */
+/*  padding: 6px;                                /* spazio tra immagine e bordo */
+  background-color: #000;                      /* evita trasparenze strane */
+}
