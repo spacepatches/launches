@@ -25,8 +25,6 @@ let query = supabaseClient
     id,
     mission_name,
     net,
-	mission_description,
-	pad_name,
     location_name,
     rocket_full_name,
     lsp_name,
@@ -34,7 +32,7 @@ let query = supabaseClient
     status_abbrev,
     orbit_abbrev,
     orbital_launch_attempt_count_year,
-    agency_launch_attempt_count,
+    agency_launch_attempt_count_year,
     launcher_stage (
       serial_number,
       flights
@@ -44,6 +42,7 @@ let query = supabaseClient
     )
   `)
   .order("net", { ascending: false });
+
 
   if (lsp) {
     query = query.eq("lsp_abbrev", lsp);
@@ -69,7 +68,11 @@ function renderLaunches(launches) {
     .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI
     .forEach(l => {
     const stage = l.launcher_stage?.[0] || {};
-	const patch = l.space_patch[0].image_url;
+	const patch =
+	  l.space_patch && l.space_patch.length > 0 && l.space_patch[0].image_url
+    ? l.space_patch[0].image_url
+    : "no_patch.png";
+
 
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
@@ -84,7 +87,7 @@ function renderLaunches(launches) {
 
     card.innerHTML = `
       <table>
-        <tr><td class="patch"><img src="${patch}"></td></tr>
+		<tr><td class="patch"><img src="${patch}"></td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td class="date">${date} UTC</td></tr>
@@ -104,5 +107,3 @@ function renderLaunches(launches) {
 
 // caricamento iniziale
 loadLaunches();
-
-//    space_patch!inner (
