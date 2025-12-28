@@ -80,6 +80,9 @@ function renderLaunches(launches) {
     ? "success"
     : "failure";
 
+  const statusClass =
+    l.status_abbrev === "Success" ? "success" : "failure";
+
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
       month: "short",
@@ -93,7 +96,11 @@ function renderLaunches(launches) {
 
     card.innerHTML = `
       <table>
-		<tr><td class="patch ${launchStatus}"><img src="${patch}"></td></tr>
+		<tr><td class="patch">
+  		<div class="patch-box ${statusClass}">
+    	<img src="${patch}">
+  	  	</div>
+		</td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
 		<tr><td class="date">${date} UTC</td></tr>

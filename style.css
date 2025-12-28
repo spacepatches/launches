@@ -73,19 +73,25 @@ td.valore {
 }
 
 td.patch {
-  border: 2px solid #666;
-  border-radius: 12px;
   padding: 12px;
-  text-align: center;
-  vertical-align: middle;
 }
 
-td.patch.success {
-  border-color: #2ecc71; /* verde */
+.patch-box {
+  border: 2px solid #666;
+  border-radius: 16px;
+  padding: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-td.patch.failure {
-  border-color: #e74c3c; /* rosso */
+.patch-box.success {
+  border-color: #2ecc71;
+}
+
+.patch-box.failure {
+  border-color: #e74c3c;
 }
 
 td.patch img {
