@@ -22,7 +22,8 @@ body {
 }
 
 table {
-  width: 100%;
+  width: 350px;
+  table-layout: fixed;
   border-collapse: collapse;  
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
@@ -31,6 +32,7 @@ table {
 
 table th,
 table td {
+	width: 100%;
   text-align: center;
 }
 
