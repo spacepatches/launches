@@ -114,3 +114,13 @@ td.patch img {
   display: inline-block;
   background-color: #000;                      /* evita trasparenze strane */
 }
+
+.green-link {
+  color: #2ecc71;       /* verde brillante */
+  text-decoration: none;
+}
+
+.green-link:hover {
+  text-decoration: underline; /* opzionale al passaggio del mouse */
+}
+
