@@ -103,6 +103,10 @@ function renderLaunches(launches) {
       minute: "2-digit"
     });
 
+    const year = new Date(l.net).toLocaleDateString("it-IT", {
+      year: "numeric"
+    });
+
     const card = document.createElement("div");
     card.className = "launch-card";
 
@@ -121,8 +125,9 @@ function renderLaunches(launches) {
         <tr><td><br></td></tr>
         <tr><td class="description">${l.mission_description || ""}</td></tr>
         <tr><td><br></td></tr>
-        <tr><td class="small">2025–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}</td>
+        <tr><td class="small">${year}–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}</td>
         <tr><td class="small">Launch: ${l.status_abbrev || ""} (${l.orbit_abbrev || ""}) ${stage.landing_success === true ? `, Landing: Success (${stage.landing_location_abbrev})` : ""}${stage.landing_success === false ? `, Landing: Failure (${stage.landing_location_abbrev})` : ""}</td></tr>
+
       </table>
     `;
 
