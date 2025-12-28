@@ -101,6 +101,11 @@ td.patch {
   border-color: #e74c3c;
 }
 
+.patch-box.other {
+  border-color: #00ffff; /* ciano */
+}
+
+
 td.patch img {
   max-height: 300px;   /* larghezza massima */
 /*  max-height: 300px;  /* altezza massima */

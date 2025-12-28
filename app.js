@@ -88,12 +88,15 @@ function renderLaunches(launches) {
     ? l.space_patch[0].image_url
     : "no_patch.png";
 
-	const launchStatus = l.status_abbrev?.toLowerCase() === "success"
-    ? "success"
-    : "failure";
+	let statusClass = "other";
 
-  const statusClass =
-    l.status_abbrev === "Success" ? "success" : "failure";
+	const status = l.status_abbrev?.toLowerCase();
+
+	if (status === "success") {
+	  statusClass = "success";
+	} else if (status === "failure") {
+	  statusClass = "failure";
+	}
 
     const date = new Date(l.net).toLocaleDateString("it-IT", {
       day: "2-digit",
