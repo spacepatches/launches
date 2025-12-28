@@ -134,8 +134,8 @@ function renderLaunches(launches) {
         <tr><td><br></td></tr>
         <tr><td class="small">${year}–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}</td>
         <tr><td class="small">Launch: ${l.status_abbrev || ""} (${l.orbit_abbrev || ""}) ${stage.landing_success === true ? `, Landing: Success (${stage.landing_location_abbrev})` : ""}${stage.landing_success === false ? `, Landing: Failure (${stage.landing_location_abbrev})` : ""}</td></tr>
-	    <tr><td class="link"><a href=${l.info_url} target="_blank"><Press release</a></td></tr>
-	    <tr><td class="link"><a href=${l.vid_url} target="_blank"><Relive</a></td></tr>
+	    <tr><td class="link"><a href=${l.info_url} target="_blank">Press release</a></td></tr>
+	    <tr><td class="link"><a href=${l.vid_url} target="_blank">Relive</a></td></tr>
 	      </table>
     `;
 
