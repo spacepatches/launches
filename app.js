@@ -45,6 +45,7 @@ let query = supabaseClient
     orbit_abbrev,
     orbital_launch_attempt_count_year,
     agency_launch_attempt_count,
+	mission_type,
 	info_url,
 	vid_url,
     launcher_stage (
@@ -124,6 +125,7 @@ function renderLaunches(launches) {
 		</td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
+        <tr><td class="lsp">${l.mission_type || ""}</td></tr>	
 		<tr><td class="date">${date} UTC</td></tr>
         <tr><td>${l.location_name || ""}</td></tr>
         <tr><td class="rocket">${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
