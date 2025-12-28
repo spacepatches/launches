@@ -73,9 +73,19 @@ td.valore {
 }
 
 td.patch {
+  border: 2px solid #666;
+  border-radius: 12px;
+  padding: 12px;
   text-align: center;
   vertical-align: middle;
-  padding: 12px;
+}
+
+td.patch.success {
+  border-color: #2ecc71; /* verde */
+}
+
+td.patch.failure {
+  border-color: #e74c3c; /* rosso */
 }
 
 td.patch img {
