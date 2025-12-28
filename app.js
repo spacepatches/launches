@@ -11,6 +11,13 @@ const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
+if (form && lspInput) {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    loadLaunches(lspInput.value.trim());
+  });
+}
+
 form.addEventListener("submit", e => {
   e.preventDefault();
   loadLaunches(lspInput.value.trim());
