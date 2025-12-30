@@ -23,7 +23,7 @@ body {
 }
 
 table {
-  width: 420px;
+  width: 360px;
   table-layout: fixed;
   border-collapse: collapse;  
   font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -116,6 +116,7 @@ td.patch img {
 }
 
 .green-link {
+
   color: #2ecc71;       /* verde brillante */
   text-decoration: none;
 }
