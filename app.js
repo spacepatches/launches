@@ -36,6 +36,7 @@ form.addEventListener("submit", e => {
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
 
+
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
@@ -68,8 +69,15 @@ let query = supabaseClient
       image_url
     )
   `)
-  .gte("net", thirtyDaysAgoISO)   // ⬅️ SOLO ultimi 30 giorni
+  .gte("net", thirtyDaysAgoISO)        // ultimi 30 giorni
+  .lte("net", nowISO)                  // solo lanci passati
+  .in("status_abbrev", ["Success", "Failure"]) // solo Success o Failure
   .order("net", { ascending: false });
+/*  .gte("net", thirtyDaysAgoISO)   // ⬅️ SOLO ultimi 30 giorni
+  .order("net", { ascending: false });
+  */
+
+
 
 
   if (lsp) {
