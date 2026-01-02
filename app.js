@@ -82,93 +82,63 @@ function renderLaunches(launches) {
   const oggi = new Date();
 
   launches
-    // ⬅️ ESCLUDE LANCI FUTURI
-    .filter(l => new Date(l.net) <= oggi)
-
-    // ⬅️ MOSTRA SOLO SUCCESS / FAILURE
-    .filter(l =>
-      l.status_abbrev === "Success" ||
-      l.status_abbrev === "Failure"
-    )
-
+    .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI
     .forEach(l => {
-      const stage = l.launcher_stage?.[0] || {};
+    const stage = l.launcher_stage?.[0] || {};
+	const patch =
+	  l.space_patch && l.space_patch.length > 0 && l.space_patch[0].image_url
+    ? l.space_patch[0].image_url
+    : "no_patch.png";
 
-      const patch =
-        l.space_patch &&
-        l.space_patch.length > 0 &&
-        l.space_patch[0].image_url
-          ? l.space_patch[0].image_url
-          : "no_patch.png";
+	let statusClass = "other";
 
-      let statusClass = "other";
-      const status = l.status_abbrev?.toLowerCase();
+	const status = l.status_abbrev?.toLowerCase();
 
-      if (status === "success") {
-        statusClass = "success";
-      } else if (status === "failure") {
-        statusClass = "failure";
-      }
+	if (status === "success") {
+	  statusClass = "success";
+	} else if (status === "failure") {
+	  statusClass = "failure";
+	}
 
-      const date = new Date(l.net).toLocaleDateString("it-IT", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-
-      const year = new Date(l.net).toLocaleDateString("it-IT", {
-        year: "numeric"
-      });
-
-      const card = document.createElement("div");
-      card.className = "launch-card";
-
-      card.innerHTML = `
-        <table>
-          <tr><td class="patch">
-            <div class="patch-box ${statusClass}">
-              <img src="${patch}">
-            </div>
-          </td></tr>
-          <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
-          <tr><td class="mission">${l.mission_name || ""}</td></tr>
-          <tr><td class="date">${date} UTC</td></tr>
-          <tr><td>${l.location_name || ""}</td></tr>
-          <tr><td class="rocket">
-            ${l.rocket_full_name || ""}
-            ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}
-            ${stage.flights != null ? `.${stage.flights}` : ""}
-          </td></tr>
-          <tr><td><br></td></tr>
-          <tr><td class="lsp">${l.mission_type || ""}</td></tr>
-          <tr><td class="description">${l.mission_description || ""}</td></tr>
-          <tr><td><br></td></tr>
-          <tr>
-            <td class="small">
-              ${year}–${l.orbital_launch_attempt_count_year ?? ""},
-              ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}
-            </td>
-          </tr>
-          <tr>
-            <td class="small">
-              Launch: ${l.status_abbrev || ""} (${l.orbit_abbrev || ""})
-              ${stage.landing_success === true ? `, Landing: Success (${stage.landing_location_abbrev})` : ""}
-              ${stage.landing_success === false ? `, Landing: Failure (${stage.landing_location_abbrev})` : ""}
-            </td>
-          </tr>
-          <tr>
-            <td class="link">
-              ${l.info_url ? `<a href="${l.info_url}" target="_blank" class="green-link">PRESS KIT</a> -` : ""}
-              ${l.vid_url ? `<a href="${l.vid_url}" target="_blank" class="green-link">RELIVE</a>` : ""}
-            </td>
-          </tr>
-        </table>
-      `;
-
-      grid.appendChild(card);
+    const date = new Date(l.net).toLocaleDateString("it-IT", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+	  hour: "2-digit",
+      minute: "2-digit"
     });
+
+    const year = new Date(l.net).toLocaleDateString("it-IT", {
+      year: "numeric"
+    });
+
+    const card = document.createElement("div");
+    card.className = "launch-card";
+
+    card.innerHTML = `
+      <table>
+		<tr><td class="patch">
+  		<div class="patch-box ${statusClass}">
+    	<img src="${patch}">
+  	  	</div>
+		</td></tr>
+        <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
+        <tr><td class="mission">${l.mission_name || ""}</td></tr>
+		<tr><td class="date">${date} UTC</td></tr>
+        <tr><td>${l.location_name || ""}</td></tr>
+        <tr><td class="rocket">${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
+        <tr><td><br></td></tr>
+        <tr><td class="lsp">${l.mission_type || ""}</td></tr>	
+        <tr><td class="description">${l.mission_description || ""}</td></tr>
+        <tr><td><br></td></tr>
+        <tr><td class="small">${year}–${l.orbital_launch_attempt_count_year ?? ""}, ${l.lsp_abbrev || ""}–${l.agency_launch_attempt_count ?? ""}</td>
+        <tr><td class="small">Launch: ${l.status_abbrev || ""} (${l.orbit_abbrev || ""}) ${stage.landing_success === true ? `, Landing: Success (${stage.landing_location_abbrev})` : ""}${stage.landing_success === false ? `, Landing: Failure (${stage.landing_location_abbrev})` : ""}</td></tr>
+	    <tr><td class="link">${l.info_url != null ? `<a href=${l.info_url} target="_blank" class="green-link">PRESS KIT</a> -` : ""} ${l.vid_url != null ? ` <a href=${l.vid_url} target="_blank" class="green-link">RELIVE</a>` : ""}
+	      </table>
+    `;
+
+    grid.appendChild(card);
+  });
 }
 
 // caricamento iniziale
