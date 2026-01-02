@@ -71,10 +71,10 @@ let query = supabaseClient
   `)
   .gte("net", thirtyDaysAgoISO)        // ultimi 30 giorni
   .in("status_abbrev", ["Success", "Failure"]) // solo Success o Failure
+  .lte("net", nowISO)                  // solo lanci passati
   .order("net", { ascending: false });
 /*  .gte("net", thirtyDaysAgoISO)   // ⬅️ SOLO ultimi 30 giorni
   .order("net", { ascending: false });
-  .lte("net", nowISO)                  // solo lanci passati
   */
 
 
@@ -101,7 +101,7 @@ function renderLaunches(launches) {
   const oggi = new Date();
 
   launches
-    .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI
+/*    .filter(l => new Date(l.net) <= oggi) // ⬅️ ESCLUDE LANCI FUTURI */
     .forEach(l => {
     const stage = l.launcher_stage?.[0] || {};
 	const patch =
