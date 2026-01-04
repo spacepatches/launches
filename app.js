@@ -22,10 +22,14 @@ const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
 onlyPatchCheckbox.addEventListener("change", () => {
-  loadLaunches({
+/*  loadLaunches({
     lsp: lspInput?.value.trim(),
     onlyPatch: onlyPatchCheckbox.checked
-  });
+  }); */
+	loadLaunches({
+	  lsp: "",
+	  onlyPatch: document.getElementById("onlyPatch")?.checked ?? false
+	});
 });
 
 
