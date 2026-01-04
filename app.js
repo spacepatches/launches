@@ -36,44 +36,44 @@ if (form && lspInput) {
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
 
+  const nowISO = new Date().toISOString();
 
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
 
-let query = supabaseClient
-  .from("launch_ref")
-  .select(`
-    id,
-    mission_name,
-    net,
-    location_name,
-	mission_description,  
-    rocket_full_name,
-    lsp_name,
-    lsp_abbrev,
-    status_abbrev,
-    orbit_abbrev,
-    orbital_launch_attempt_count_year,
-    agency_launch_attempt_count,
-	mission_type,
-	info_url,
-	vid_url,
-    launcher_stage (
-      serial_number,
-      flights,
-	  landing_location_abbrev,
-	  landing_success
-    ),
-    space_patch (
-      image_url
-    )
-  `)
-  .gte("net", thirtyDaysAgoISO)        // ultimi 30 giorni
-  .in("status_abbrev", ["Success", "Failure"]) // solo Success o Failure
-  .lte("net", nowISO)                  // solo lanci passati */
-  .order("net", { ascending: false });
-
+  let query = supabaseClient
+    .from("launch_ref")
+    .select(`
+      id,
+      mission_name,
+      net,
+      location_name,
+      mission_description,
+      rocket_full_name,
+      lsp_name,
+      lsp_abbrev,
+      status_abbrev,
+      orbit_abbrev,
+      orbital_launch_attempt_count_year,
+      agency_launch_attempt_count,
+      mission_type,
+      info_url,
+      vid_url,
+      launcher_stage (
+        serial_number,
+        flights,
+        landing_location_abbrev,
+        landing_success
+      ),
+      space_patch (
+        image_url
+      )
+    `)
+    .gte("net", thirtyDaysAgoISO)
+    .lte("net", nowISO)
+    .in("status_abbrev", ["Success", "Failure"])
+    .order("net", { ascending: false });
 
   if (lsp) {
     query = query.eq("lsp_abbrev", lsp);
@@ -91,6 +91,12 @@ let query = supabaseClient
 }
 
 function renderLaunches(launches) {
+  if (!Array.isArray(launches)) {
+    console.warn("renderLaunches called with:", launches);
+    grid.innerHTML = "Nessun dato disponibile";
+    return;
+  }
+
   grid.innerHTML = "";
 
   const oggi = new Date();
