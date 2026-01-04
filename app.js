@@ -28,10 +28,10 @@ if (form && lspInput) {
   });
 }
 
-form.addEventListener("submit", e => {
+/*form.addEventListener("submit", e => {
   e.preventDefault();
   loadLaunches(lspInput.value.trim());
-});
+}); */
 
 async function loadLaunches(lsp) {
   grid.innerHTML = "Loading…";
@@ -71,13 +71,8 @@ let query = supabaseClient
   `)
   .gte("net", thirtyDaysAgoISO)        // ultimi 30 giorni
   .in("status_abbrev", ["Success", "Failure"]) // solo Success o Failure
-/*  .lte("net", nowISO)                  // solo lanci passati */
+  .lte("net", nowISO)                  // solo lanci passati */
   .order("net", { ascending: false });
-/*  .gte("net", thirtyDaysAgoISO)   // ⬅️ SOLO ultimi 30 giorni
-  .order("net", { ascending: false });
-  */
-
-
 
 
   if (lsp) {
