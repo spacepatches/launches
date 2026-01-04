@@ -21,6 +21,14 @@ const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
+onlyPatchCheckbox.addEventListener("change", () => {
+  loadLaunches({
+    lsp: lspInput?.value.trim(),
+    onlyPatch: onlyPatchCheckbox.checked
+  });
+});
+
+
 if (form && lspInput) {
   form.addEventListener("submit", e => {
     e.preventDefault();
