@@ -40,12 +40,8 @@ if (form && lspInput) {
   });
 }
 
-/*form.addEventListener("submit", e => {
-  e.preventDefault();
-  loadLaunches(lspInput.value.trim());
-}); */
-
-async function loadLaunches({ lsp, onlyPatch }) {
+/* async function loadLaunches({ lsp, onlyPatch }) { */
+async function loadLaunches({ lsp = "", onlyPatch = false } = {}) {
   grid.innerHTML = "Loading…";
 
   const nowISO = new Date().toISOString();
