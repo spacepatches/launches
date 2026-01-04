@@ -41,7 +41,7 @@ if (form && lspInput) {
   loadLaunches(lspInput.value.trim());
 }); */
 
-async function loadLaunches(lsp) {
+async function loadLaunches({ lsp, onlyPatch }) {
   grid.innerHTML = "Loading…";
 
   const nowISO = new Date().toISOString();
@@ -55,39 +55,6 @@ async function loadLaunches(lsp) {
   const patchJoin = withPatch
     ? "space_patch!inner ( image_url )"
     : "space_patch ( image_url )";
-
-/*  let query = supabaseClient
-    .from("launch_ref")
-    .select(`
-      id,
-      mission_name,
-      net,
-      location_name,
-      mission_description,
-      rocket_full_name,
-      lsp_name,
-      lsp_abbrev,
-      status_abbrev,
-      orbit_abbrev,
-      orbital_launch_attempt_count_year,
-      agency_launch_attempt_count,
-      mission_type,
-      info_url,
-      vid_url,
-      launcher_stage (
-        serial_number,
-        flights,
-        landing_location_abbrev,
-        landing_success
-      ),
-      space_patch (
-        image_url
-      )
-    `)
-    .gte("net", thirtyDaysAgoISO)
-    .lte("net", nowISO)
-    .in("status_abbrev", ["Success", "Failure"])
-    .order("net", { ascending: false }); */
   
 let query = supabaseClient
   .from("launch_ref")
