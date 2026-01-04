@@ -16,7 +16,7 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 
-
+const onlyPatchCheckbox = document.getElementById("onlyPatch");
 const grid = document.getElementById("grid");
 const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
@@ -42,7 +42,13 @@ async function loadLaunches(lsp) {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
 
-  let query = supabaseClient
+  const withPatch = onlyPatchCheckbox?.checked;
+
+  const patchJoin = withPatch
+    ? "space_patch!inner ( image_url )"
+    : "space_patch ( image_url )";
+
+/*  let query = supabaseClient
     .from("launch_ref")
     .select(`
       id,
@@ -73,8 +79,40 @@ async function loadLaunches(lsp) {
     .gte("net", thirtyDaysAgoISO)
     .lte("net", nowISO)
     .in("status_abbrev", ["Success", "Failure"])
-    .order("net", { ascending: false });
-
+    .order("net", { ascending: false }); */
+  
+let query = supabaseClient
+  .from("launch_ref")
+  .select(`
+    id,
+    mission_name,
+    net,
+    location_name,
+    mission_description,
+    rocket_full_name,
+    lsp_name,
+    lsp_abbrev,
+    status_abbrev,
+    orbit_abbrev,
+    orbital_launch_attempt_count_year,
+    agency_launch_attempt_count,
+    mission_type,
+    info_url,
+    vid_url,
+    launcher_stage (
+      serial_number,
+      flights,
+      landing_location_abbrev,
+      landing_success
+    ),
+    ${patchJoin}
+  `)
+  .gte("net", thirtyDaysAgoISO)
+  .lte("net", nowISO)
+  .in("status_abbrev", ["Success", "Failure"])
+  .order("net", { ascending: false }); 
+  
+ 
   if (lsp) {
     query = query.eq("lsp_abbrev", lsp);
   }

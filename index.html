@@ -13,11 +13,13 @@
 
 <body>
 
-  <form id="filters" class="filters" style="display:none">
-    <label for="lsp">LSP:</label>
-    <input type="text" id="lsp" placeholder="ESA, NASA, SpaceX…">
-    <button type="submit">Filtra</button>
-  </form>
+
+<form id="filters" class="filters">
+  <label>
+    <input type="checkbox" id="onlyPatch">
+    Only launches with available mission patches
+  </label>
+</form>
 	
   <div id="grid" class="grid"></div>
 
