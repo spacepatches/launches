@@ -39,7 +39,7 @@ async function loadLaunches(lsp) {
   const nowISO = new Date().toISOString();
 
   const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 15);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
 
   let query = supabaseClient
