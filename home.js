@@ -17,19 +17,19 @@ async function loadLatestPatches() {
 
   const nowISO = new Date().toISOString();
 
-  const { data, error } = await supabaseClient
-    .from("launch_ref")
-    .select(`
-      net,
-      mission_name,
-      space_patch (
-        image_url
-      )
-    `)
-    .lte("net", nowISO)                 // solo lanci passati
-    .not("space_patch.image_url", "is", null) // patch presente
-    .order("net", { ascending: false }) // più recenti prima
-    .limit(3);
+
+const { data, error } = await supabaseClient
+  .from("launch_ref")
+  .select(`
+    net,
+    mission_name,
+    space_patch (
+      image_url
+    )
+  `)
+  .lte("net", nowISO)
+  .order("net", { ascending: false })
+  .limit(15);   // prendiamo più record per sicurezza
 
   if (error) {
     console.error(error);
@@ -45,11 +45,15 @@ function renderLatestPatches(launches) {
   const patchGrid = document.getElementById("patch-grid");
   patchGrid.innerHTML = "";
 
-  launches.forEach(l => {
-    const patchUrl = l.space_patch?.[0]?.image_url;
-    if (!patchUrl) return;
+  let shown = 0;
 
-    const date = new Date(l.net).toLocaleDateString("en-GB", {
+  for (const l of launches) {
+    if (shown >= 3) break;
+
+    const patchUrl = l.space_patch?.[0]?.image_url;
+    if (!patchUrl) continue;
+
+    const date = new Date(l.net).toLocaleString("en-GB", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -65,7 +69,12 @@ function renderLatestPatches(launches) {
     `;
 
     patchGrid.appendChild(card);
-  });
+    shown++;
+  }
+
+  if (shown === 0) {
+    patchGrid.innerHTML = "No mission patches available";
+  }
 }
 
 
