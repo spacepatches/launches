@@ -68,8 +68,11 @@ function renderLatestPatches(launches) {
 
 	card.innerHTML = `
 	  <img src="${patchUrl}" alt="${patchName}">
-	  <div class="patch-name">${patchName}</div>
-	  <div class="patch-date">${date}</div>
+<div class="patch-info">
+  <span class="patch-name">${patchName}</span>
+  <span class="patch-date">${date} UTC</span>
+</div>
+
 	`;
 
     patchGrid.appendChild(card);
