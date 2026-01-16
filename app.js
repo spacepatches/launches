@@ -134,15 +134,17 @@ function renderLaunches(launches) {
 	  statusClass = "failure";
 	}
 	
-    const date = new Date(l.net).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
+	const date = new Date(l.net).toLocaleString("en-GB", {
+	  day: "2-digit",
+	  month: "short",
+	  year: "numeric",
 	  hour: "2-digit",
-      minute: "2-digit"
-    });
+	  minute: "2-digit",
+	  hour12: false,
+	  timeZone: "UTC"
+	});
 
-    const year = new Date(l.net).toLocaleDateString("en-GB", {
+    const year = new Date(l.net).toLocaleString("en-GB", {
       year: "numeric"
     });
 
