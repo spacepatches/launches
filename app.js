@@ -132,8 +132,8 @@ function renderLaunches(launches) {
 	} else if (status === "failure") {
 	  statusClass = "failure";
 	}
-
-    const date = new Date(l.net).toLocaleDateString("it-IT", {
+	
+    const date = new Date(l.net).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -141,7 +141,7 @@ function renderLaunches(launches) {
       minute: "2-digit"
     });
 
-    const year = new Date(l.net).toLocaleDateString("it-IT", {
+    const year = new Date(l.net).toLocaleDateString("en-GB", {
       year: "numeric"
     });
 
