@@ -68,27 +68,6 @@ function renderLatestPatches(launches) {
   });
 }
 
-.patch-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.patch-card {
-  text-align: center;
-}
-
-.patch-card img {
-  max-width: 100%;
-  height: auto;
-}
-
-.patch-date {
-  margin-top: 6px;
-  font-size: 0.9em;
-  color: #ccc;
-}
-
 
 // caricamento iniziale
 loadLaunches();
