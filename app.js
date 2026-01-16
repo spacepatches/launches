@@ -40,6 +40,7 @@ if (form && lspInput) {
   });
 }
 
+
 /* async function loadLaunches({ lsp, onlyPatch }) { */
 async function loadLaunches({ lsp = "", onlyPatch = false } = {}) {
   grid.innerHTML = "Loading…";
@@ -135,7 +136,7 @@ function renderLaunches(launches) {
 	
     const date = new Date(l.net).toLocaleDateString("en-GB", {
       day: "2-digit",
-      month: "short",
+      month: "long",
       year: "numeric",
 	  hour: "2-digit",
       minute: "2-digit"
