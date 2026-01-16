@@ -134,7 +134,7 @@ function renderLaunches(launches) {
 	  statusClass = "failure";
 	}
 	
-	const date = new Date(l.net).toString("en-GB", {
+	const date = new Date(l.net).toLocaleString("en-GB", {
 	  day: "2-digit",
 	  month: "short",
 	  year: "numeric",
@@ -144,7 +144,7 @@ function renderLaunches(launches) {
 	  timeZone: "UTC"
 	});
 
-    const year = new Date(l.net).toString("en-GB", {
+    const year = new Date(l.net).toLocaleString("en-GB", {
       year: "numeric"
     });
 
@@ -160,7 +160,7 @@ function renderLaunches(launches) {
 		</td></tr>
         <tr><td class="lsp">${l.lsp_name || ""}</td></tr>
         <tr><td class="mission">${l.mission_name || ""}</td></tr>
-		<tr><td class="date">${date} UTC</td></tr>
+		<tr><td class="date">${date}</td></tr>
         <tr><td>${l.location_name || ""}</td></tr>
         <tr><td class="rocket">${l.rocket_full_name || ""} ${stage.serial_number != null ? ` - ${stage.serial_number}` : ""}${stage.flights != null ? `.${stage.flights}` : ""}</td></tr>
         <tr><td><br></td></tr>
