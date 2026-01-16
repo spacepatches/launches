@@ -134,7 +134,7 @@ function renderLaunches(launches) {
 	  statusClass = "failure";
 	}
 	
-	const date = new Date(l.net).toLocaleString("en-GB", {
+	const date = new Date(l.net).toString("en-GB", {
 	  day: "2-digit",
 	  month: "short",
 	  year: "numeric",
@@ -144,7 +144,7 @@ function renderLaunches(launches) {
 	  timeZone: "UTC"
 	});
 
-    const year = new Date(l.net).toLocaleString("en-GB", {
+    const year = new Date(l.net).toString("en-GB", {
       year: "numeric"
     });
 
