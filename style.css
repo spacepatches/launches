@@ -126,22 +126,10 @@ td.patch img {
   text-decoration: underline; /* opzionale al passaggio del mouse */
 }
 
-.patch-date {
-  margin-top: 6px;
-  font-size: 0.9em;
-  color: #ccc;
-}
-
 .patch-grid {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-}
-
-.patch-card img {
-  width: 200px;
-  height: auto;
-  display: block;
 }
 
 .patch-card {
@@ -151,8 +139,28 @@ td.patch img {
   align-items: center;
 }
 
+.patch-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.patch-name {
+  font-size: 0.9rem;
+  font-weight: bold; /* <-- qui il grassetto */
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 .patch-date {
-  margin-top: 8px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  text-align: right;
+  white-space: nowrap;
 }
 
