@@ -49,7 +49,7 @@ function renderLatestPatches(launches) {
   let shown = 0;
 
   for (const l of launches) {
-    if (shown >= 3) break;
+    if (shown >= 5) break;
 
     const patchUrl = l.space_patch?.[0]?.image_url;
     if (!patchUrl) continue;
