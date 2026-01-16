@@ -7,9 +7,7 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 
-const onlyPatchCheckbox = document.getElementById("onlyPatch");
 const grid = document.getElementById("grid");
-const form = document.getElementById("filters");
 const lspInput = document.getElementById("lsp");
 
 
