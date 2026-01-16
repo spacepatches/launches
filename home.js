@@ -68,9 +68,7 @@ function renderLatestPatches(launches) {
 	card.innerHTML = `
 	  <img src="${patchUrl}" alt="${patchName}">
 <div class="patch-info">
-  <div class="patch-name">${patchName}</div>
-  <div class="patch-date">${date} UTC</div>
-</div>
+  <span class="patch-name">${patchName}</span>
 </div>
 
 	`;
