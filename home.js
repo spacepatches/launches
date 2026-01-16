@@ -24,7 +24,7 @@ const { data, error } = await supabaseClient
     net,
     mission_name,
     space_patch (
-      mission_name,
+     name,
 	  image_url
     )
   `)
