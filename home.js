@@ -70,4 +70,5 @@ function renderLatestPatches(launches) {
 
 
 // caricamento iniziale
-loadLaunches();
+loadLatestPatches();
+
