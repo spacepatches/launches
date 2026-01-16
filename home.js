@@ -24,7 +24,8 @@ const { data, error } = await supabaseClient
     net,
     mission_name,
     space_patch (
-      image_url
+      name,
+	  image_url
     )
   `)
   .lte("net", nowISO)
@@ -63,10 +64,13 @@ function renderLatestPatches(launches) {
     const card = document.createElement("div");
     card.className = "patch-card";
 
-    card.innerHTML = `
-      <img src="${patchUrl}" alt="${l.mission_name}">
-      <div class="patch-date">${date} UTC</div>
-    `;
+	const patchName = l.space_patch?.[0]?.name || "";
+
+	card.innerHTML = `
+	  <img src="${patchUrl}" alt="${patchName}">
+	  <div class="patch-name">${patchName}</div>
+	  <div class="patch-date">${date}</div>
+	`;
 
     patchGrid.appendChild(card);
     shown++;
