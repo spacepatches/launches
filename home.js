@@ -22,9 +22,8 @@ const { data, error } = await supabaseClient
   .from("launch_ref")
   .select(`
     net,
-    mission_name,
     space_patch (
-     name,
+     mission_name,
 	  image_url
     )
   `)
@@ -69,8 +68,9 @@ function renderLatestPatches(launches) {
 	card.innerHTML = `
 	  <img src="${patchUrl}" alt="${patchName}">
 <div class="patch-info">
-  <span class="patch-name">${patchName}</span>
-  <span class="patch-date">${date} UTC</span>
+  <div class="patch-name">${patchName}</div>
+  <div class="patch-date">${date} UTC</div>
+</div>
 </div>
 
 	`;
