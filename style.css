@@ -158,7 +158,7 @@ td.patch img {
 
 .patch-name {
 	align: center;
-  font-size: 13px;
+  font-size: 14px;
   white-space: normal;     /* consente a capo */
   overflow: visible;       /* niente taglio */
   text-overflow: unset;    /* niente ellissi */
