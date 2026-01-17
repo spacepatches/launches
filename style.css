@@ -166,7 +166,7 @@ td.patch img {
 
 .patch-date {
 	align: center;
-  font-size: 12rem;
+  font-size: 12px;
   opacity: 0.85;
   text-align: right;
   white-space: nowrap;
