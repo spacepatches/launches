@@ -135,7 +135,7 @@ td.patch img {
 }
 
 .patch-card {
-  width: 140px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -157,6 +157,7 @@ td.patch img {
 }
 
 .patch-name {
+	align: center;
   font-size: 13px;
   white-space: normal;     /* consente a capo */
   overflow: visible;       /* niente taglio */
@@ -164,7 +165,8 @@ td.patch img {
 }
 
 .patch-date {
-  font-size: 0.8rem;
+	align: center;
+  font-size: 12rem;
   opacity: 0.85;
   text-align: right;
   white-space: nowrap;
