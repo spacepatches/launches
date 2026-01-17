@@ -150,6 +150,7 @@ td.patch img {
 }
 
 .patch-info {
+	align: center;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
