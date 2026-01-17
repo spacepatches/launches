@@ -23,7 +23,7 @@ const { data, error } = await supabaseClient
   .select(`
     net,
     space_patch (
-     mission_name,
+     name,
 	  image_url
     )
   `)
