@@ -135,7 +135,7 @@ td.patch img {
 }
 
 .patch-card {
-  width: 200px;            /* larghezza fissa delle card */
+  width: 150px;            /* larghezza fissa delle card */
   text-align: center;
   flex-shrink: 0;          /* non si restringe più del necessario */
 }
