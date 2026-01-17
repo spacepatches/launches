@@ -63,7 +63,7 @@ function renderLatestPatches(launches) {
     const card = document.createElement("div");
     card.className = "patch-card";
 
-	const patchName = l.space_patch?.[0]?.mission_name || "";
+	const patchName = l.space_patch?.[0]?.name || "";
 
 	card.innerHTML = `
 	  <img src="${patchUrl}" alt="${patchName}">
