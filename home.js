@@ -69,7 +69,6 @@ function renderLatestPatches(launches) {
 	  <img src="${patchUrl}" alt="${patchName}">
 <div class="patch-info">
   <span class="patch-name">${patchName}</span>
-  <span class="patch-date">${date}</span>
 </div>
 
 	`;
