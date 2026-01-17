@@ -130,7 +130,7 @@ td.patch img {
 .patch-grid {
   display: flex;           /* layout orizzontale */
   flex-wrap: wrap;         /* va a capo se non c'è spazio */
-  gap: 20px;               /* spazio tra le card */
+  gap: 10px;               /* spazio tra le card */
   justify-content: flex-start;
 }
 
