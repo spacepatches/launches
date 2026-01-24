@@ -28,6 +28,7 @@ const { data, error } = await supabaseClient
     )
   `)
   .lte("net", nowISO)
+  .in("status_abbrev", ["Success", "Failure"])   
   .order("net", { ascending: false })
   .limit(15);   // prendiamo più record per sicurezza
 
