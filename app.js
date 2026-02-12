@@ -85,7 +85,7 @@ let query = supabaseClient
   `)
   .gte("net", thirtyDaysAgoISO)
   .lte("net", nowISO)
-  .in("status_abbrev", ["Success", "Failure"])
+  .in("status_abbrev", ["Success", "Failure", "In Flight"])
   .order("net", { ascending: false }); 
   
  
