@@ -30,7 +30,7 @@ const { data, error } = await supabaseClient
   .lte("net", nowISO)
   .in("status_abbrev", ["Success", "Failure", "Deployed"])   
   .order("net", { ascending: false })
-  .limit(30);   // prendiamo più record per sicurezza
+  .limit(20);   // prendiamo più record per sicurezza
 
   if (error) {
     console.error(error);
