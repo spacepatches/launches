@@ -48,7 +48,7 @@ async function loadLaunches({ lsp = "", onlyPatch = false } = {}) {
   const nowISO = new Date().toISOString();
 
   const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 60);
   const thirtyDaysAgoISO = thirtyDaysAgo.toISOString();
 
   const withPatch = onlyPatchCheckbox?.checked;
@@ -85,7 +85,7 @@ let query = supabaseClient
   `)
   .gte("net", thirtyDaysAgoISO)
   .lte("net", nowISO)
-  .in("status_abbrev", ["Success", "Failure", "In Flight"])
+  .in("status_abbrev", ["Success", "Failure", "In Flight", "Deployed"])
   .order("net", { ascending: false }); 
   
  
