@@ -186,19 +186,20 @@ async function loadLatestLaunchVideo() {
 
   const nowISO = new Date().toISOString();
 
-  const { data, error } = await supabaseClient
-    .from("launch_ref")
-    .select(`
-      mission_name,
-      net,
-      vid_url,
-      lsp_name
-    `)
-    .lte("net", nowISO) // solo lanci passati
-    .in("status_abbrev", ["Success", "Failure"]) // solo definitivi
-    .not("vid_url", "is", null) // deve avere video
-    .order("net", { ascending: false })
-    .limit(1);
+const { data, error } = await supabaseClient
+  .from("launch_ref")
+  .select(`
+    mission_name,
+    rocket_full_name,
+    lsp_name,
+    net,
+    vid_url
+  `)
+  .lte("net", nowISO)
+  .in("status_abbrev", ["Success", "Failure"])
+  .not("vid_url", "is", null)
+  .order("net", { ascending: false })
+  .limit(1);
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
@@ -250,9 +251,21 @@ function renderLatestVideo(launch) {
 
 function renderLatestVideo(launch) {
   const container = document.getElementById("latest-video");
+  const textContainer = document.getElementById("latest-video-text");
+
   const url = launch.vid_url;
 
-  // 🔴 Caso YouTube
+  // 📝 TESTO DINAMICO
+  textContainer.innerHTML = `
+    Here you can relive the latest rocket launch feed available:<br>
+    <strong>
+      ${launch.lsp_name || ""}, 
+      ${launch.rocket_full_name || ""}, 
+      ${launch.mission_name || ""}
+    </strong>
+  `;
+
+  // 🎥 YOUTUBE
   if (url.includes("youtube.com") || url.includes("youtu.be")) {
     const videoId = extractYouTubeID(url);
 
@@ -268,7 +281,7 @@ function renderLatestVideo(launch) {
     return;
   }
 
-  // 🔵 Caso X (SpaceX tipicamente)
+  // 🐦 X (SpaceX)
   if (url.includes("x.com")) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
@@ -282,7 +295,7 @@ function renderLatestVideo(launch) {
     return;
   }
 
-  // ⚪ fallback generico
+  // fallback
   container.innerHTML = `
     <a href="${url}" target="_blank">Watch video</a>
   `;
