@@ -233,7 +233,7 @@ function renderLatestVideo(launch) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
-          src="fallback_spacex_patch.png"
+          src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjh-eLcYVzk-anjhs_RoANmF2zzTuwJBqtaTvJ5a3I4szl-bxogAILXkvqClL9zfp0ZI4fap2YicXMAqKAtyt3wk2h0rZ6RHIb9Q52O6UbU_lQbZXkuV7PbucBVAnKSFw2uaKrKrMdKU8pZlaRGdYZs4yaK7NZe-YTJMWtRzAv6G1oS1Pi-ZXpGqdCKzeAJ/s1176/StarlinkGroup30-04.png"
           alt="Watch broadcast"
           width="800"
         />
