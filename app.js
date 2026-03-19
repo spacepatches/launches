@@ -179,3 +179,113 @@ function renderLaunches(launches) {
 
 // caricamento iniziale
 loadLaunches();
+
+
+async function loadLatestLaunchVideo() {
+  const container = document.getElementById("latest-video");
+
+  const nowISO = new Date().toISOString();
+
+  const { data, error } = await supabaseClient
+    .from("launch_ref")
+    .select(`
+      mission_name,
+      net,
+      vid_url,
+      lsp_name
+    `)
+    .lte("net", nowISO) // solo lanci passati
+    .in("status_abbrev", ["Success", "Failure"]) // solo definitivi
+    .not("vid_url", "is", null) // deve avere video
+    .order("net", { ascending: false })
+    .limit(1);
+
+  if (error || !data || data.length === 0) {
+    container.innerHTML = "No video available";
+    return;
+  }
+
+  renderLatestVideo(data[0]);
+}
+
+function renderLatestVideo(launch) {
+  const container = document.getElementById("latest-video");
+  const url = launch.vid_url;
+
+  // 🔴 Caso YouTube
+  if (url.includes("youtube.com") || url.includes("youtu.be")) {
+    const videoId = extractYouTubeID(url);
+
+    container.innerHTML = `
+      <iframe
+        width="800"
+        height="450"
+        src="https://www.youtube.com/embed/${videoId}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    `;
+    return;
+  }
+
+  // 🔵 Caso X (SpaceX tipicamente)
+  if (url.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${url}" target="_blank">
+        <img
+          src="fallback_spacex_patch.png"
+          alt="Watch broadcast"
+          width="800"
+        />
+      </a>
+    `;
+    return;
+  }
+
+  // ⚪ fallback generico
+  container.innerHTML = `
+    <a href="${url}" target="_blank">Watch video</a>
+  `;
+}
+
+function renderLatestVideo(launch) {
+  const container = document.getElementById("latest-video");
+  const url = launch.vid_url;
+
+  // 🔴 Caso YouTube
+  if (url.includes("youtube.com") || url.includes("youtu.be")) {
+    const videoId = extractYouTubeID(url);
+
+    container.innerHTML = `
+      <iframe
+        width="800"
+        height="450"
+        src="https://www.youtube.com/embed/${videoId}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    `;
+    return;
+  }
+
+  // 🔵 Caso X (SpaceX tipicamente)
+  if (url.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${url}" target="_blank">
+        <img
+          src="fallback_spacex_patch.png"
+          alt="Watch broadcast"
+          width="800"
+        />
+      </a>
+    `;
+    return;
+  }
+
+  // ⚪ fallback generico
+  container.innerHTML = `
+    <a href="${url}" target="_blank">Watch video</a>
+  `;
+}
+
+loadLatestLaunchVideo();
