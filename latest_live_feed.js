@@ -64,7 +64,7 @@ function renderLatestVideo(launch) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
-          src="https://github.com/spacepatches/launches/blob/main/Livefeed.png"
+          src="https://github.com/spacepatches/launches/Livefeed.png"
           alt="Watch broadcast"
           width="800"
         />
@@ -115,7 +115,7 @@ function renderLatestVideo(launch) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
-          src="https://github.com/spacepatches/launches/blob/main/Livefeed.png"
+          src="https://github.com/spacepatches/launches/Livefeed.png"
           alt="Watch broadcast"
           width="800"
         />
