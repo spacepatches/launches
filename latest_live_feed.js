@@ -87,11 +87,11 @@ function renderLatestVideo(launch) {
 
   // 📝 TESTO DINAMICO
   textContainer.innerHTML = `
-<div><span style="font-weight: normal;">🛰️ Here you can relive the latest rocket launch feed available:&nbsp;
+<div><h3 style="text-align: left;"><span style="font-weight: normal;">🛰️ Here you can relive the latest rocket launch feed available:&nbsp;
       ${launch.lsp_name || ""}, 
       ${launch.rocket_full_name || ""}, 
       ${launch.mission_name || ""}
-    </span></div>
+    </span><br></h3></div>
   `;
 
   // 🎥 YOUTUBE
