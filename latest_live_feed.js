@@ -89,7 +89,7 @@ function renderLatestVideo(launch) {
   textContainer.innerHTML = `
 <div><h3 style="text-align: left;"><span style="font-weight: normal;">🛰️ Here you can relive the latest rocket launch feed available:&nbsp;<br>
       ${launch.lsp_name || ""}, 
-      ${launch.rocket_full_name || ""}, 
+      (${launch.rocket_full_name || ""})<br>, 
       ${launch.mission_name || ""}
     </span><br></h3></div>
   `;
