@@ -41,63 +41,26 @@ const { data, error } = await supabaseClient
 
 function renderLatestVideo(launch) {
   const container = document.getElementById("latest-video");
-  const url = launch.vid_url;
-
-  // 🔴 Caso YouTube
-  if (url.includes("youtube.com") || url.includes("youtu.be")) {
-    const videoId = extractYouTubeID(url);
-
-    container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://www.youtube.com/embed/${videoId}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
-    `;
-    return;
-  }
-
-  // 🔵 Caso X (SpaceX tipicamente)
-  if (url.includes("x.com")) {
-    container.innerHTML = `
-      <a href="${url}" target="_blank">
-        <img
-          src="https://spacepatches.github.io/launches/Livefeed.png"
-          alt="Watch broadcast"
-          width="800"
-        />
-      </a>
-    `;
-    return;
-  }
-
-  // ⚪ fallback generico
-  container.innerHTML = `
-    <a href="${url}" target="_blank">Watch video</a>
-  `;
-}
-
-function renderLatestVideo(launch) {
-  const container = document.getElementById("latest-video");
   const textContainer = document.getElementById("latest-video-text");
 
   const url = launch.vid_url;
 
-  // 📝 TESTO DINAMICO
   textContainer.innerHTML = `
-<div><h3 style="text-align: left;"><span style="font-weight: normal;">🛰️ Here you can relive the latest rocket launch feed available:&nbsp;<br>
-      ${launch.lsp_name || ""}, 
-      (${launch.rocket_full_name || ""})<br> 
-      ${launch.mission_name || ""}
-    </span><br></h3></div>
+    <div>
+      <h3 style="text-align: left;">
+        <span style="font-weight: normal;">
+        🛰️ Here you can relive the latest rocket launch feed available:
+        ${launch.lsp_name || ""}, 
+        ${launch.rocket_full_name || ""}, 
+        ${launch.mission_name || ""}
+        </span>
+      </h3>
+    </div>
   `;
 
-  // 🎥 YOUTUBE
-  if (url.includes("youtube.com") || url.includes("youtu.be")) {
-    const videoId = extractYouTubeID(url);
+  const videoId = extractYouTubeID(url);
 
+  if (videoId) {
     container.innerHTML = `
       <iframe
         width="800"
@@ -110,13 +73,11 @@ function renderLatestVideo(launch) {
     return;
   }
 
-  // 🐦 X (SpaceX)
   if (url.includes("x.com")) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
           src="https://spacepatches.github.io/launches/Livefeed.png"
-          alt="Watch broadcast"
           width="800"
         />
       </a>
@@ -124,10 +85,12 @@ function renderLatestVideo(launch) {
     return;
   }
 
-  // fallback
   container.innerHTML = `
     <a href="${url}" target="_blank">Watch video</a>
   `;
 }
 
 loadLatestLaunchVideo();
+
+
+
