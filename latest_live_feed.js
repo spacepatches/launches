@@ -110,14 +110,15 @@ function renderLatestVideo(launch) {
     const videoId = extractYouTubeID(url);
 
     container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://www.youtube.com/embed/${videoId}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+  <iframe
+    width="800"
+    height="450"
+    src="https://www.youtube.com/embed/${videoId}"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+  </iframe>
     `;
     return;
   }
