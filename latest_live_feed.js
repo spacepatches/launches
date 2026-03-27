@@ -65,7 +65,7 @@ function renderLatestVideo(launch) {
     <div>
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
-        🛰️ Here you can relive the latest rocket launch feed available:
+        🛰️ Here you can relive the latest rocket launch feed available from 
         ${launch.net || ""},
 		${launch.lsp_name || ""}, 
         ${launch.rocket_full_name || ""}, 
