@@ -20,25 +20,6 @@ function extractYouTubeID(url) {
 }
 
 // ===============================
-// 🎯 DETECT EMBED TYPE
-// ===============================
-function getEmbedType(url) {
-  if (!url) return "none";
-
-  // 🎥 YouTube
-  if (extractYouTubeID(url)) return "youtube";
-
-  // 🐦 X (Twitter)
-  if (url.includes("x.com")) return "x";
-
-  // 🎬 Vimeo
-  if (url.includes("vimeo.com")) return "vimeo";
-
-  // 🌐 fallback
-  return "link";
-}
-
-// ===============================
 // 🚀 LOAD DATA
 // ===============================
 async function loadLatestLaunchVideo() {
@@ -59,23 +40,15 @@ async function loadLatestLaunchVideo() {
     .in("status_abbrev", ["Success", "Failure"])
     .not("vid_url", "is", null)
     .order("net", { ascending: false })
-    .limit(10); // 🔴 prendiamo più record
+    .limit(1); // 🔴 SOLO il più recente
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
     return;
   }
 
-  // ===============================
-  // 🧠 SCEGLI IL MIGLIOR VIDEO
-  // ===============================
-  const bestLaunch =
-    data.find(l => getEmbedType(l.vid_url) === "youtube") ||
-    data.find(l => getEmbedType(l.vid_url) === "vimeo") ||
-    data.find(l => getEmbedType(l.vid_url) === "x") ||
-    data[0]; // fallback
-
-  renderLatestVideo(bestLaunch);
+  const launch = data[0]; // ✅ sempre l'ultimo
+  renderLatestVideo(launch);
 }
 
 // ===============================
@@ -101,26 +74,20 @@ function renderLatestVideo(launch) {
     </div>
   `;
 
-  const type = getEmbedType(url);
-
   // ===============================
   // 🎥 YOUTUBE
   // ===============================
-  if (type === "youtube") {
-    const videoId = extractYouTubeID(url);
+  const ytId = extractYouTubeID(url);
 
-    if (!videoId) {
-      container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
-      return;
-    }
-
+  if (ytId) {
     container.innerHTML = `
       <iframe
         width="800"
         height="450"
-        src="https://www.youtube.com/embed/${videoId}"
+        src="https://www.youtube.com/embed/${ytId}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen>
       </iframe>
     `;
@@ -128,9 +95,25 @@ function renderLatestVideo(launch) {
   }
 
   // ===============================
+  // 🐦 X.COM (TWITTER)
+  // ===============================
+  if (url.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${url}" target="_blank">
+        <img
+          src="https://spacepatches.github.io/launches/Livefeed.png"
+          alt="Watch broadcast"
+          width="800"
+        />
+      </a>
+    `;
+    return;
+  }
+
+  // ===============================
   // 🎬 VIMEO
   // ===============================
-  if (type === "vimeo") {
+  if (url.includes("vimeo.com")) {
     const videoId = url.split("/").pop();
 
     container.innerHTML = `
@@ -146,22 +129,6 @@ function renderLatestVideo(launch) {
   }
 
   // ===============================
-  // 🐦 X (ESTERNO)
-  // ===============================
-  if (type === "x") {
-    container.innerHTML = `
-      <a href="${url}" target="_blank">
-        <img
-          src="https://spacepatches.github.io/launches/Livefeed.png"
-          alt="Watch broadcast"
-          width="800"
-        />
-      </a>
-    `;
-    return;
-  }
-
-  // ===============================
   // 🌐 FALLBACK
   // ===============================
   container.innerHTML = `
@@ -172,5 +139,4 @@ function renderLatestVideo(launch) {
 // ===============================
 // ▶️ START
 // ===============================
-
 loadLatestLaunchVideo();
