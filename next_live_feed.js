@@ -67,10 +67,10 @@ function renderNextVideo(launch) {
     <div>
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
-        🛰️ Here you can watch live the next rocket launch.   
-        ${launch.lsp_name || ""} 
+        🛰️ Here you can watch live the next rocket launch.<br>   
+        <b>${launch.lsp_name || ""}</b>
 		${launch.rocket_full_name || ""}, 
-        ${launch.mission_name || ""}
+        <i>${launch.mission_name || ""}</i>
         will be launched at ${launch.net || ""}.</span>
       </h3>
     </div>
