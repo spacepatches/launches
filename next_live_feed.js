@@ -112,30 +112,18 @@ function renderLatestVideo(launch) {
   }
 
   // ===============================
-  // 🎬 VIMEO
-  // ===============================
-  if (url.includes("vimeo.com")) {
-    const videoId = url.split("/").pop();
-
-    container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://player.vimeo.com/video/${videoId}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
-    `;
-    return;
-  }
-
-  // ===============================
   // 🌐 FALLBACK
   // ===============================
   container.innerHTML = `
     <a href="${url}" target="_blank">Watch video</a>
   `;
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadLatestLaunchVideo();
+});
+
 
 
 // ===============================
@@ -262,5 +250,4 @@ function renderNextVideo(launch) {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadNextLaunchVideo();
-  loadLatestLaunchVideo();
 });
