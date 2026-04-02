@@ -102,7 +102,7 @@ function renderLatestVideo(launch) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
-          src="https://spacepatches.github.io/launches/Livefeed.png"
+          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
           alt="Watch broadcast"
           width="800"
         />
@@ -163,7 +163,7 @@ async function loadNextLaunchVideo() {
       vid_url
     `)
     .gte("net", nowISO)
-//   .in("status_abbrev", ["Go"])
+   .in("status_abbrev", ["Go", "TBC"])
     .not("vid_url", "is", null)
     .order("net", { ascending: true })
     .limit(1); // 🔴 SOLO il più recente
@@ -228,7 +228,7 @@ function renderNextVideo(launch) {
     container.innerHTML = `
       <a href="${url}" target="_blank">
         <img
-          src="https://spacepatches.github.io/launches/Livefeed.png"
+          src="https://spacepatches.github.io/launches/NextLiveFeed.png"
           alt="Watch broadcast"
           width="800"
         />
