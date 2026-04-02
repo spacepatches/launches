@@ -18,7 +18,8 @@ async function loadPatchOfTheDay() {
       location_name,
       vid_url,
       patch_url,
-      date
+      date,
+	  day_month
     `);
 
   if (error || !data || data.length === 0) {
@@ -27,17 +28,15 @@ async function loadPatchOfTheDay() {
   }
 
   const today = new Date();
-  const todayDay = today.getDate();
-  const todayMonth = today.getMonth() + 1;
+  const todayKey =
+    String(today.getMonth() + 1).padStart(2, '0') + "-" +
+    String(today.getDate()).padStart(2, '0');
 
-  // 🔍 filtro come fai implicitamente con net
-  const patch = data.find(item => {
-    const d = new Date(item.date);
-    return (
-      d.getDate() === todayDay &&
-      d.getMonth() + 1 === todayMonth
-    );
-  });
+  const { data, error } = await supabaseClient
+    .from("patch_of_the_day")
+    .select("*")
+    .eq("day_month", todayKey)
+    .limit(1);
 
   if (!patch) {
     container.innerHTML = "No patch today";
