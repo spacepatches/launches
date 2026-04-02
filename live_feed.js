@@ -73,6 +73,7 @@ function renderLatestVideo(launch) {
       </h3>
     </div>
   `;
+  
 
   // ===============================
   // 🎥 YOUTUBE
@@ -162,9 +163,9 @@ async function loadNextLaunchVideo() {
       vid_url
     `)
     .gte("net", nowISO)
-    .in("status_abbrev", ["Go"])
+//   .in("status_abbrev", ["Go"])
     .not("vid_url", "is", null)
-    .order("net", { ascending: false })
+    .order("net", { ascending: true })
     .limit(1); // 🔴 SOLO il più recente
 
   if (error || !data || data.length === 0) {
