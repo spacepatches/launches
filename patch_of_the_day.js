@@ -1,7 +1,11 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 
 async function loadPatchOfTheDay() {
   const container = document.getElementById("patch-container");
@@ -16,6 +20,10 @@ async function loadPatchOfTheDay() {
     .select("name, description, pad_name, location_name, vid_url, patch_url")
     .eq("day_month", todayKey)
     .limit(1);
+
+	console.log("Today key:", todayKey);
+	console.log("Data returned:", data);
+	console.log("Error:", error);
 
   if (error) {
     console.error(error);
