@@ -129,6 +129,13 @@ function renderLatestVideo(launch) {
     return;
   }
 
+  // ===============================
+  // 🌐 FALLBACK
+  // ===============================
+  container.innerHTML = `
+    <a href="${url}" target="_blank">Watch video</a>
+  `;
+}
 
 
 // ===============================
