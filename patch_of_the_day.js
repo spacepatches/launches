@@ -6,13 +6,11 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 async function loadPatchOfTheDay() {
   const container = document.getElementById("patch-container");
 
-  // Ottieni la data odierna in formato DD-MM
   const today = new Date();
   const todayKey =
-    String(today.getDate()).padStart(2, '0') + "-" +   // giorno
-    String(today.getMonth() + 1).padStart(2, '0');     // mese
+    String(today.getDate()).padStart(2, '0') + "-" +
+    String(today.getMonth() + 1).padStart(2, '0');
 
-  // Query filtrata direttamente sul campo day_month
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
     .select("name, description, pad_name, location_name, vid_url, patch_url")
@@ -20,7 +18,7 @@ async function loadPatchOfTheDay() {
     .limit(1);
 
   if (error) {
-    console.error("Supabase error:", error);
+    console.error(error);
     container.innerHTML = "Error loading data";
     return;
   }
@@ -30,7 +28,7 @@ async function loadPatchOfTheDay() {
     return;
   }
 
-  const patch = data[0]; // primo risultato
+  const patch = data[0];
 
   let html = `
     <h3>${patch.name}</h3>
