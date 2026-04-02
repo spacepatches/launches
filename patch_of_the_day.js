@@ -1,49 +1,36 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function loadPatchOfTheDay() {
   const container = document.getElementById("patch-container");
 
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select(`
-      name,
-      description,
-      pad_name,
-      location_name,
-      vid_url,
-      patch_url,
-      date,
-	  day_month
-    `);
-
-  if (error || !data || data.length === 0) {
-    container.innerHTML = "No patch available";
-    return;
-  }
-
-
   // Ottieni la data odierna in formato DD-MM
   const today = new Date();
   const todayKey =
-    String(today.getDate()).padStart(2, '0') + "-" +   // giorno con zero iniziale
-    String(today.getMonth() + 1).padStart(2, '0');     // mese con zero iniziale
+    String(today.getDate()).padStart(2, '0') + "-" +   // giorno
+    String(today.getMonth() + 1).padStart(2, '0');     // mese
 
+  // Query filtrata direttamente sul campo day_month
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("*")
+    .select("name, description, pad_name, location_name, vid_url, patch_url")
     .eq("day_month", todayKey)
     .limit(1);
 
-  if (!patch) {
+  if (error) {
+    console.error("Supabase error:", error);
+    container.innerHTML = "Error loading data";
+    return;
+  }
+
+  if (!data || data.length === 0) {
     container.innerHTML = "No patch today";
     return;
   }
+
+  const patch = data[0]; // primo risultato
 
   let html = `
     <h3>${patch.name}</h3>
