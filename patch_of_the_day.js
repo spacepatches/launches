@@ -27,10 +27,12 @@ async function loadPatchOfTheDay() {
     return;
   }
 
+
+  // Ottieni la data odierna in formato DD-MM
   const today = new Date();
   const todayKey =
-    String(today.getMonth() + 1).padStart(2, '0') + "-" +
-    String(today.getDate()).padStart(2, '0');
+    String(today.getDate()).padStart(2, '0') + "-" +   // giorno con zero iniziale
+    String(today.getMonth() + 1).padStart(2, '0');     // mese con zero iniziale
 
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
