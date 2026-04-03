@@ -3,41 +3,27 @@ const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 🔁 aspetta che il div esista davvero
 function waitForContainerAndRun() {
   const container = document.getElementById("patch-container");
 
   if (!container) {
-    console.log("Container not found, retrying...");
     setTimeout(waitForContainerAndRun, 500);
     return;
   }
 
-  console.log("Container found ✅");
   loadPatchOfTheDay();
 }
 
 async function loadPatchOfTheDay() {
   const container = document.getElementById("patch-container");
 
-  console.log("Loading patch...");
-
   const today = new Date();
-  const todayKey =
-    String(today.getDate()).padStart(2, '0') + "-" +
-    String(today.getMonth() + 1).padStart(2, '0');
-
-  console.log("Today key:", todayKey);
+  const todayDay = today.getDate();
+  const todayMonth = today.getMonth() + 1;
 
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("name, description, pad_name, location_name, vid_url, patch_url")
-//    .eq("day_month", todayKey)
-    .eq("day_month", "03-04")
-      .limit(1);
-
-  console.log("Data:", data);
-  console.log("Error:", error);
+    .select("name, description, pad_name, location_name, vid_url, patch_url, date");
 
   if (error) {
     container.innerHTML = "Error loading data";
@@ -45,11 +31,23 @@ async function loadPatchOfTheDay() {
   }
 
   if (!data || data.length === 0) {
-    container.innerHTML = "No patch today";
+    container.innerHTML = "No patch available";
     return;
   }
 
-  const patch = data[0];
+  // 🔍 Trova la patch giusta confrontando giorno e mese
+  const patch = data.find(item => {
+    const d = new Date(item.date);
+    return (
+      d.getDate() === todayDay &&
+      d.getMonth() + 1 === todayMonth
+    );
+  });
+
+  if (!patch) {
+    container.innerHTML = "No patch today";
+    return;
+  }
 
   let html = `
     <h3>${patch.name}</h3>
@@ -72,5 +70,4 @@ async function loadPatchOfTheDay() {
   container.innerHTML = html;
 }
 
-// 🚀 avvio robusto
 waitForContainerAndRun();
