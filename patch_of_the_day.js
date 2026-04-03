@@ -23,10 +23,6 @@ function extractYouTubeID(url) {
 // 🚀 LOAD DATA
 // ===============================
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("latest-video");
-  const textContainer = document.getElementById("latest-video-text");
-
-
 
   const dayMonth = `${day}-${month}`; // "03-04"
   const today = new Date();
@@ -66,8 +62,8 @@ function renderPatchOfTheDay(patch) {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
         🛰️ Patch of the Day:<br>  
-        <b>${data.title || ""}</b><br>
-        ${data.description || ""}
+        <b>${patch.title || ""}</b><br>
+        ${patch.description || ""}
         </span>
       </h3>
     </div>
