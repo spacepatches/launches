@@ -22,7 +22,7 @@ function extractYouTubeID(url) {
 // ===============================
 // 🚀 LOAD DATA
 // ===============================
-async function loadPatch() {
+async function loadPatchVideo() {
   const container = document.getElementById("patch-video");
 
   const nowISO = new Date().toISOString();
@@ -42,33 +42,21 @@ async function loadPatch() {
     .order("net", { ascending: false })
     .limit(1); // 🔴 SOLO il più recente
 
-
-//  const { data, error } = await supabaseClient
-//   .from("patch_of_the_day")
-//    .select(`
-//      name,
-//      description,
-//      patch_url,
-//      vid_url
-//    `)
-//	.eq("day_month", "03-04")
-//	.limit(1);
-
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
     return;
   }
 
   const launch = data[0]; // ✅ sempre l'ultimo
-  renderPatch(launch);
+  renderPatchVideo(launch);
 }
 
 // ===============================
 // 🎥 RENDER VIDEO
 // ===============================
-function renderPatch(launch) {
+function renderPatchVideo(launch) {
   const container = document.getElementById("patch-video");
-  const textContainer = document.getElementById("patch-text");
+  const textContainer = document.getElementById("patch-video-text");
 
   const url = launch.vid_url;
 
@@ -78,10 +66,10 @@ function renderPatch(launch) {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
         🛰️ Here you can relive the latest rocket launch feed available.<br>  
-        <b>${launch.name || ""}</b>
-		${launch.description || ""}, 
-        <i>${launch.patch_url || ""}</i>
-        launched at ${launch.vid_url || ""}.</span>
+        <b>${launch.lsp_name || ""}</b>
+		${launch.rocket_full_name || ""}, 
+        <i>${launch.mission_name || ""}</i>
+        launched at ${launch.net || ""}.</span>
       </h3>
     </div>
   `;
@@ -124,6 +112,24 @@ function renderPatch(launch) {
   }
 
   // ===============================
+  // 🎬 VIMEO
+  // ===============================
+  if (url.includes("vimeo.com")) {
+    const videoId = url.split("/").pop();
+
+    container.innerHTML = `
+      <iframe
+        width="800"
+        height="450"
+        src="https://player.vimeo.com/video/${videoId}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    `;
+    return;
+  }
+
+  // ===============================
   // 🌐 FALLBACK
   // ===============================
   container.innerHTML = `
@@ -132,8 +138,5 @@ function renderPatch(launch) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadPatch();
+  loadPatchVideo();
 });
-
-
-
