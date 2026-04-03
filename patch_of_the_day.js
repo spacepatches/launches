@@ -37,15 +37,18 @@ async function loadPatchOfTheDay() {
     return;
   }
 
-  // ===============================
-  // 📝 TESTO
-  // ===============================
   textContainer.innerHTML = `
     <div>
-      <h3>
-        <b>${patch.name || ""}</b><br>
-        <i>${patch.description || ""}</i><br>
-        Pad: ${patch.pad_name || ""}, Location: ${patch.location_name || ""}
+      <h3 style="text-align: left;">
+        <span style="font-weight: normal;">
+        🛰️ Here you can watch live the next rocket launch.<br>   
+        <b>${patch.name || ""}</b>
+		${patch.date || ""}, 
+        ${patch.location_name || ""}
+        ${patch.pad_name || ""}
+		${patch.description || ""}
+		<img href="${patch.patch_url}"</img>
+        </span>
       </h3>
     </div>
   `;
