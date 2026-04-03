@@ -57,12 +57,19 @@ async function loadPatchOfTheDay() {
   `;
 
   if (patch.vid_url) {
-    let vidUrl = patch.vid_url;
+    let vidUrl = patch.vid_url.trim();
 
-    // 🔹 Se è un link YouTube normale, trasformalo in embed
-    if (vidUrl.includes("youtube.com/watch")) {
-      const urlObj = new URL(vidUrl);
-      const videoId = urlObj.searchParams.get("v");
+    // YouTube
+    if (vidUrl.includes("youtube.com/watch") || vidUrl.includes("youtu.be/")) {
+      let videoId = "";
+
+      if (vidUrl.includes("youtube.com/watch")) {
+        const urlObj = new URL(vidUrl);
+        videoId = urlObj.searchParams.get("v");
+      } else if (vidUrl.includes("youtu.be/")) {
+        videoId = vidUrl.split("/").pop();
+      }
+
       if (videoId) {
         vidUrl = "https://www.youtube.com/embed/" + videoId;
       }
