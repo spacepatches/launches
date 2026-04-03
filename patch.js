@@ -28,19 +28,17 @@ async function loadLatestLaunchVideo() {
   const nowISO = new Date().toISOString();
 
   const { data, error } = await supabaseClient
-    .from("launch_ref")
+    .from("patch_of_the_day")
     .select(`
-      mission_name,
-      rocket_full_name,
-      lsp_name,
-      net,
+      name,
+      description,
+      location_name,
+      patch_url,
       vid_url
     `)
-    .lte("net", nowISO)
-    .in("status_abbrev", ["Success", "Failure"])
-    .not("vid_url", "is", null)
-    .order("net", { ascending: false })
-    .limit(1); // 🔴 SOLO il più recente
+	 .eq("day_month", dayMonth)
+	 .limit(1);
+
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
