@@ -137,8 +137,6 @@ function renderLatestVideo(launch) {
   `;
 }
 
-// ===============================
-// ▶️ START
-// ===============================
-loadLatestLaunchVideo();
-
+document.addEventListener("DOMContentLoaded", () => {
+  loadLatestLaunchVideo();
+});
