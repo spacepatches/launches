@@ -5,113 +5,81 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("patch-text");
+  const { data, error } = await supabaseClient
+    .from("patch_of_the_day")
+    .select("*");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
 
   const today = new Date();
   const todayDay = today.getDate();
   const todayMonth = today.getMonth() + 1;
 
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select("name, description, pad_name, location_name, vid_url, patch_url, date");
-
-  // 🔍 Trova la patch giusta confrontando giorno e mese
   const patch = data.find(item => {
     const d = new Date(item.date);
     return d.getDate() === todayDay && d.getMonth() + 1 === todayMonth;
   });
 
-  const launch = data[0]; // ✅ sempre l'ultimo
-  renderPatchOfTheDay(launch);
-
+  if (patch) {
+    renderPatchOfTheDay(patch);
+  } else {
+    console.log("Nessuna patch per oggi");
+  }
 }
 
-  // ===============================
-  // 🎥 VIDEO / LINK
-  // ===============================
-
-function renderPatchOfTheDay(launch) {
+function renderPatchOfTheDay(patch) {
   const container = document.getElementById("next-video");
   const textContainer = document.getElementById("next-video-text");
-  
-  // 📝 TESTO
-  textContainer.innerHTML = `
-  <div>
-    <h3 style="text-align: left;">
-      <span style="font-weight: normal;">
-      🛰️ Here you can watch live the next rocket launch.<br>   
-      <b>${patch.name || ""}</b>
-	${patch.date || ""}, 
-      ${patch.location_name || ""}
-      ${patch.pad_name || ""}
-	${patch.description || ""}
-	<img href="${patch.patch_url}"</img>
-      </span>
-    </h3>
-  </div>
-`;
-  
 
-  const ytId = patch.vid_url;
-  
-  if (ytId) {
+  textContainer.innerHTML = `
+    <div>
+      <h3 style="text-align: left;">
+        <span style="font-weight: normal;">
+          🛰️ Here you can watch live the next rocket launch.<br>
+          <b>${patch.name || ""}</b> ${patch.date || ""}, 
+          ${patch.location_name || ""} ${patch.pad_name || ""}<br>
+          ${patch.description || ""}<br>
+          ${patch.patch_url ? `<img src="${patch.patch_url}" alt="Patch image" />` : ""}
+        </span>
+      </h3>
+    </div>
+  `;
+
+  const vidUrl = patch.vid_url || "";
+
+  if (vidUrl.includes("youtube.com")) {
+    const ytId = vidUrl.split("v=")[1] || "";
     container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
+      <iframe width="800" height="450"
         src="https://www.youtube.com/embed/${ytId}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen>
       </iframe>
     `;
-    return;
-  }
-
-  // ===============================
-  // 🐦 X.COM (TWITTER)
-  // ===============================
-  if (ytId.includes("x.com")) {
+  } else if (vidUrl.includes("vimeo.com")) {
+    const videoId = vidUrl.split("/").pop();
     container.innerHTML = `
-      <a href="${url}" target="_blank">
-        <img
-          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
-          alt="Watch broadcast"
-          width="800"
-        />
-      </a>
-    `;
-    return;
-  }
-
-  // ===============================
-  // 🎬 VIMEO
-  // ===============================
-  if (ytId.includes("vimeo.com")) {
-    const videoId = url.split("/").pop();
-
-    container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
+      <iframe width="800" height="450"
         src="https://player.vimeo.com/video/${videoId}"
         frameborder="0"
         allowfullscreen>
       </iframe>
     `;
-    return;
+  } else if (vidUrl.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${vidUrl}" target="_blank">
+        <img src="https://spacepatches.github.io/launches/LatestLiveFeed.png" alt="Watch broadcast" width="800" />
+      </a>
+    `;
+  } else {
+    container.innerHTML = `<a href="${vidUrl}" target="_blank">Watch video</a>`;
   }
-
-  // ===============================
-  // 🌐 FALLBACK
-  // ===============================
-  container.innerHTML = `
-    <a href="${url}" target="_blank">Watch video</a>
-  `;
 }
-
-
+  
 
 // ▶️ START
 document.addEventListener("DOMContentLoaded", () => {
