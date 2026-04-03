@@ -22,7 +22,7 @@ function extractYouTubeID(url) {
 // ===============================
 // 🚀 LOAD DATA
 // ===============================
-async function loadLatestLaunchVideo() {
+async function loadPatch() {
   const container = document.getElementById("latest-video");
 
   const nowISO = new Date().toISOString();
@@ -48,13 +48,13 @@ async function loadLatestLaunchVideo() {
   }
 
   const launch = data[0]; // ✅ sempre l'ultimo
-  renderLatestVideo(launch);
+  renderPatch(launch);
 }
 
 // ===============================
 // 🎥 RENDER VIDEO
 // ===============================
-function renderLatestVideo(launch) {
+function renderPatch(launch) {
   const container = document.getElementById("latest-video");
   const textContainer = document.getElementById("latest-video-text");
 
@@ -120,7 +120,7 @@ function renderLatestVideo(launch) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadLatestLaunchVideo();
+  loadPatch();
 });
 
 
