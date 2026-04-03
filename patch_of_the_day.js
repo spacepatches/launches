@@ -3,42 +3,54 @@ const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function showAllPatches() {
+async function debugSupabase() {
   const container = document.getElementById("patch-container");
 
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select("*");  // prendi tutti i record
+  let html = "<h3>DEBUG SUPABASE</h3>";
 
-  if (error) {
-    console.error("Supabase error:", error);
-    container.innerHTML = "Error loading data";
-    return;
+  try {
+    html += "<p>Client initialized ✅</p>";
+
+    const response = await supabaseClient
+      .from("patch_of_the_day")
+      .select("*");
+
+    console.log("FULL RESPONSE:", response);
+
+    html += `<p>Status: ${response.status}</p>`;
+
+    if (response.error) {
+      html += `<p style="color:red;"><b>Error:</b> ${response.error.message}</p>`;
+      console.error("ERROR:", response.error);
+    } else {
+      html += "<p style='color:green;'>Query executed ✅</p>";
+    }
+
+    if (!response.data || response.data.length === 0) {
+      html += "<p>No data returned ⚠️</p>";
+    } else {
+      html += `<p>Records found: ${response.data.length}</p>`;
+
+      response.data.forEach((row, index) => {
+        html += `
+          <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+            <b>#${index + 1}</b><br>
+            name: ${row.name}<br>
+            date: ${row.date}<br>
+            day_month: ${row.day_month}<br>
+            patch_url: ${row.patch_url}<br>
+            vid_url: ${row.vid_url}
+          </div>
+        `;
+      });
+    }
+
+  } catch (err) {
+    html += `<p style="color:red;">JS Error: ${err.message}</p>`;
+    console.error("JS ERROR:", err);
   }
-
-  if (!data || data.length === 0) {
-    container.innerHTML = "No records in the table";
-    return;
-  }
-
-  let html = "<h3>All patches in the table:</h3><ul>";
-
-  data.forEach(patch => {
-    html += `<li>
-      <b>Name:</b> ${patch.name} |
-      <b>Date:</b> ${patch.date} |
-      <b>Day_Month:</b> ${patch.day_month} |
-      <b>Pad:</b> ${patch.pad_name} |
-      <b>Location:</b> ${patch.location_name} |
-      <b>Patch URL:</b> ${patch.patch_url} |
-      <b>Video URL:</b> ${patch.vid_url}
-    </li>`;
-  });
-
-  html += "</ul>";
 
   container.innerHTML = html;
 }
 
-// Esegui al caricamento del DOM
-document.addEventListener("DOMContentLoaded", showAllPatches);
+document.addEventListener("DOMContentLoaded", debugSupabase);
