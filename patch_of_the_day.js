@@ -56,24 +56,43 @@ async function loadPatchOfTheDay() {
 
   const ytId = patch.vid_url;
 
-//  const ytId = extractYouTubeID(url);
-	
-    if (ytId) {
-      container.innerHTML = `
-        <iframe
-          width="800"
-          height="450"
-          src="https://www.youtube.com/embed/${ytId}"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
-      `;
+  if (ytId) {
+    container.innerHTML = `
+      <iframe
+        width="800"
+        height="450"
+        src="https://www.youtube.com/embed/${ytId}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    `;
+    return;
+  }
 
-	
-  } else if (url && url.includes("vimeo.com")) {
+  // ===============================
+  // 🐦 X.COM (TWITTER)
+  // ===============================
+  if (url.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${url}" target="_blank">
+        <img
+          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
+          alt="Watch broadcast"
+          width="800"
+        />
+      </a>
+    `;
+    return;
+  }
+
+  // ===============================
+  // 🎬 VIMEO
+  // ===============================
+  if (url.includes("vimeo.com")) {
     const videoId = url.split("/").pop();
+
     container.innerHTML = `
       <iframe
         width="800"
@@ -83,13 +102,15 @@ async function loadPatchOfTheDay() {
         allowfullscreen>
       </iframe>
     `;
-  } else if (url) {
-    container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
-  } else if (patch.patch_url) {
-    container.innerHTML = `<a href="${patch.patch_url}" target="_blank">View patch image</a>`;
-  } else {
-    container.innerHTML = "No video or patch available";
+    return;
   }
+
+  // ===============================
+  // 🌐 FALLBACK
+  // ===============================
+  container.innerHTML = `
+    <a href="${url}" target="_blank">Watch video</a>
+  `;
 }
 
 // ▶️ START
