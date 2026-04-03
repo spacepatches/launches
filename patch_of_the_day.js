@@ -1,28 +1,7 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-// ===============================
-// 🔍 YOUTUBE ID EXTRACTION
-// ===============================
-const ytId = extractYouTubeID(url);
-
-if (ytId) {
-  container.innerHTML = `
-    <iframe
-      width="800"
-      height="450"
-      src="https://www.youtube.com/embed/${ytId}?rel=0"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  `;
-}
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 async function loadPatchOfTheDay() {
@@ -74,18 +53,20 @@ async function loadPatchOfTheDay() {
   // ===============================
   // 🎥 VIDEO / LINK
   // ===============================
-  const url = patch.vid_url;
-  const ytId = extractYouTubeID(url);
 
+  const ytId = patch.vid_url;
+
+//  const ytId = extractYouTubeID(url);
   if (ytId) {
     container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://www.youtube.com/embed/${ytId}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        referrerpolicy="strict-origin-when-cross-origin"
+      <iframe 
+        width="800" 
+        height="450" 
+        src="https://www.youtube.com/embed/${ytId}?rel=0" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
         allowfullscreen>
       </iframe>
     `;
