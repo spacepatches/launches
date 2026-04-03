@@ -57,20 +57,21 @@ async function loadPatchOfTheDay() {
   const ytId = patch.vid_url;
 
 //  const ytId = extractYouTubeID(url);
-  if (ytId) {
-    container.innerHTML = `
+	
+    if (ytId) {
+      container.innerHTML = `
+        <iframe
+          width="800"
+          height="450"
+          src="https://www.youtube.com/embed/${ytId}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      `;
 
-      <iframe 
-        width="800" 
-        height="450" 
-        src="https://www.youtube.com/embed/${ytId}?rel=0" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-      </iframe>
-    `;
+	
   } else if (url && url.includes("vimeo.com")) {
     const videoId = url.split("/").pop();
     container.innerHTML = `
