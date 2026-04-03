@@ -1,21 +1,28 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-function waitForContainerAndRun() {
-  const container = document.getElementById("patch-container");
+// ===============================
+// 🔍 YOUTUBE ID EXTRACTION
+// ===============================
+function extractYouTubeID(url) {
+  if (!url) return null;
 
-  if (!container) {
-    setTimeout(waitForContainerAndRun, 500);
-    return;
-  }
+  const regex =
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
 
-  loadPatchOfTheDay();
+  const match = url.match(regex);
+  return match ? match[1] : null;
 }
 
+
+
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("patch-container");
+  const container = document.getElementById("patch-of-the-day-video");
 
   const today = new Date();
   const todayDay = today.getDate();
@@ -48,6 +55,31 @@ async function loadPatchOfTheDay() {
     container.innerHTML = "No patch today";
     return;
   }
+
+  renderPatchOfTheDayVideo(launch);
+}
+
+
+  function renderPatchOfTheDayVideo(launch) {
+	const textContainer = document.getElementById("patch-of-day-text");
+    const container = document.getElementById("patch-of-the-day-video");
+	
+    const url = launch.vid_url;
+
+    // 📝 TESTO
+    textContainer.innerHTML = `
+      <div>
+        <h3 style="text-align: left;">
+          <span style="font-weight: normal;">
+          🛰️ Here you can relive the latest rocket launch feed available.<br>  
+          <b>${launch.lsp_name || ""}</b>
+  		${launch.rocket_full_name || ""}, 
+          <i>${launch.mission_name || ""}</i>
+          launched at ${launch.net || ""}.</span>
+        </h3>
+      </div>
+    `;
+
 
 
   function extractYouTubeID(patch.vid_url) {
