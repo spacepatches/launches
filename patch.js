@@ -61,10 +61,10 @@ function renderPatch(launch) {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
         🛰️ Here you can relive the latest rocket launch feed available.<br>  
-        <b>${launch.lsp_name || ""}</b>
-		${launch.rocket_full_name || ""}, 
-        <i>${launch.mission_name || ""}</i>
-        launched at ${launch.net || ""}.</span>
+        <b>${launch.name || ""}</b>
+		${launch.description || ""}, 
+        <i>${launch.patch_url || ""}</i>
+        launched at ${launch.vid_url || ""}.</span>
       </h3>
     </div>
   `;
