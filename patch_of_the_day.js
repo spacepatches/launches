@@ -57,10 +57,21 @@ async function loadPatchOfTheDay() {
   `;
 
   if (patch.vid_url) {
+    let vidUrl = patch.vid_url;
+
+    // 🔹 Se è un link YouTube normale, trasformalo in embed
+    if (vidUrl.includes("youtube.com/watch")) {
+      const urlObj = new URL(vidUrl);
+      const videoId = urlObj.searchParams.get("v");
+      if (videoId) {
+        vidUrl = "https://www.youtube.com/embed/" + videoId;
+      }
+    }
+
     html += `
       <div>
         <iframe width="560" height="315"
-          src="${patch.vid_url}"
+          src="${vidUrl}"
           frameborder="0" allowfullscreen>
         </iframe>
       </div>
