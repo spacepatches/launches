@@ -22,8 +22,8 @@ function extractYouTubeID(url) {
 // ===============================
 // 🚀 LOAD DATA
 // ===============================
-async function loadPatchVideo() {
-  const container = document.getElementById("patch-video");
+async function loadLatestLaunchVideo() {
+  const container = document.getElementById("latest-video");
 
   const nowISO = new Date().toISOString();
 
@@ -48,15 +48,15 @@ async function loadPatchVideo() {
   }
 
   const launch = data[0]; // ✅ sempre l'ultimo
-  renderPatchVideo(launch);
+  renderLatestVideo(launch);
 }
 
 // ===============================
 // 🎥 RENDER VIDEO
 // ===============================
-function renderPatchVideo(launch) {
-  const container = document.getElementById("patch-video");
-  const textContainer = document.getElementById("patch-video-text");
+function renderLatestVideo(launch) {
+  const container = document.getElementById("latest-video");
+  const textContainer = document.getElementById("latest-video-text");
 
   const url = launch.vid_url;
 
@@ -137,6 +137,8 @@ function renderPatchVideo(launch) {
   `;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadPatchVideo();
-});
+// ===============================
+// ▶️ START
+// ===============================
+loadLatestLaunchVideo();
+
