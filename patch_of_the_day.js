@@ -49,6 +49,55 @@ async function loadPatchOfTheDay() {
     return;
   }
 
+
+  function extractYouTubeID(patch.vid_url) {
+    if (!url) return null;
+
+    const regex =
+      /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
+
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+
+
+
+  const ytId = extractYouTubeID(url);
+
+  if (ytId) {
+    container.innerHTML = `
+      <iframe
+        width="800"
+        height="450"
+        src="https://www.youtube.com/embed/${ytId}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    `;
+    return;
+  }
+
+  // ===============================
+  // 🐦 X.COM (TWITTER)
+  // ===============================
+  if (url.includes("x.com")) {
+    container.innerHTML = `
+      <a href="${url}" target="_blank">
+        <img
+          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
+          alt="Watch broadcast"
+          width="800"
+        />
+      </a>
+    `;
+    return;
+  }
+
+
+
+
   let html = `
     <h3>${patch.name}</h3>
     <p>${patch.description}</p>
@@ -56,34 +105,7 @@ async function loadPatchOfTheDay() {
     <img src="${patch.patch_url}" width="300">
   `;
 
-  if (patch.vid_url) {
-    let vidUrl = patch.vid_url.trim();
 
-    // YouTube
-    if (vidUrl.includes("youtube.com/watch") || vidUrl.includes("youtu.be/")) {
-      let videoId = "";
-
-      if (vidUrl.includes("youtube.com/watch")) {
-        const urlObj = new URL(vidUrl);
-        videoId = urlObj.searchParams.get("v");
-      } else if (vidUrl.includes("youtu.be/")) {
-        videoId = vidUrl.split("/").pop();
-      }
-
-      if (videoId) {
-        vidUrl = "https://www.youtube.com/embed/" + videoId;
-      }
-    }
-
-    html += `
-      <div>
-        <iframe width="560" height="315"
-          src="${vidUrl}"
-          frameborder="0" allowfullscreen>
-        </iframe>
-      </div>
-    `;
-  }
 
   container.innerHTML = html;
 }
