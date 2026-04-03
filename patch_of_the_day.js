@@ -31,21 +31,23 @@ async function loadPatchOfTheDay() {
 
   const dayMonth = `${day}-${month}`; // es: "3-4"
 
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select("*")
-    .eq("day_month", dayMonth)
-    .limit(1)
-    .single(); // 🔥 prende direttamente una riga
+const { data, error } = await supabaseClient
+  .from("patch_of_the_day")
+  .select("*")
+  .eq("day_month", dayMonth)
+  .limit(1);
 
-  if (error || !data) {
-    console.log("Nessuna patch per oggi");
-    container.innerHTML = "No patch available today";
-    return;
-  }
-
-  renderPatchOfTheDay(data);
+if (error) {
+  console.error(error);
+  return;
 }
+
+if (!data || data.length === 0) {
+  console.log("Nessuna patch per oggi");
+  return;
+}
+
+renderPatchOfTheDay(data[0]);
 
 // ===============================
 // 🎥 RENDER VIDEO
