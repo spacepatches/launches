@@ -35,8 +35,7 @@ async function loadPatch() {
       patch_url,
       vid_url
     `)
-	.eq("day_month", "03-04")
-	    .limit(1);
+		.in("day_mont", "03-04");
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
