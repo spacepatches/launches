@@ -1,7 +1,23 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+// ===============================
+// 🔍 YOUTUBE ID EXTRACTION
+// ===============================
+function extractYouTubeID(url) {
+  if (!url) return null;
+
+  const regex =
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
+
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
 
 
 async function loadPatchOfTheDay() {
