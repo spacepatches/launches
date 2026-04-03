@@ -26,33 +26,29 @@ async function loadPatchOfTheDay() {
   const container = document.getElementById("latest-video");
   const textContainer = document.getElementById("latest-video-text");
 
-  // 🔹 Fetch all patches
+
+
+  const dayMonth = `${day}-${month}`; // "03-04"
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+
+  const dayMonth = `${day}-${month}`; // es: "3-4"
+
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("*");
+    .select("*")
+    .eq("day_month", dayMonth)
+    .limit(1)
+    .single(); // 🔥 prende direttamente una riga
 
-  if (error || !data || data.length === 0) {
-    container.innerHTML = "No patch available today";
-    return;
-  }
-
-  // 🔹 Get today's patch
-  const today = new Date();
-  const todayDay = today.getDate();
-  const todayMonth = today.getMonth() + 1;
-
-  const patch = data.find(item => {
-    const d = new Date(item.date);
-    return d.getDate() === todayDay && d.getMonth() + 1 === todayMonth;
-  });
-
-  if (!patch) {
+  if (error || !data) {
     console.log("Nessuna patch per oggi");
     container.innerHTML = "No patch available today";
     return;
   }
 
-  renderPatchOfTheDay(patch);
+  renderPatchOfTheDay(data);
 }
 
 // ===============================
