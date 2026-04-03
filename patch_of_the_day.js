@@ -5,7 +5,6 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("patch-container");
   const textContainer = document.getElementById("patch-text");
 
   const today = new Date();
@@ -17,12 +16,12 @@ async function loadPatchOfTheDay() {
     .select("name, description, pad_name, location_name, vid_url, patch_url, date");
 
   if (error) {
-    container.innerHTML = "Error loading data";
+    textContainer.innerHTML = "Error loading data";
     return;
   }
 
   if (!data || data.length === 0) {
-    container.innerHTML = "No patch available";
+    textContainer.innerHTML = "No patch available";
     return;
   }
 
@@ -33,7 +32,7 @@ async function loadPatchOfTheDay() {
   });
 
   if (!patch) {
-    container.innerHTML = "No patch today";
+    textContainer.innerHTML = "No patch today";
     return;
   }
 
