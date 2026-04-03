@@ -24,13 +24,13 @@ async function loadPatchOfTheDay() {
   });
 
   if (patch) {
-    renderPatchOfTheDay(patch);
+    renderPatchOfTheDay(launch);
   } else {
     console.log("Nessuna patch per oggi");
   }
 }
 
-function renderPatchOfTheDay(patch) {
+function renderPatchOfTheDay(launch) {
   const container = document.getElementById("next-video");
   const textContainer = document.getElementById("next-video-text");
 
@@ -39,10 +39,10 @@ function renderPatchOfTheDay(patch) {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
           🛰️ Here you can watch live the next rocket launch.<br>
-          <b>${patch.name || ""}</b> ${patch.date || ""}, 
-          ${patch.location_name || ""} ${patch.pad_name || ""}<br>
-          ${patch.description || ""}<br>
-          ${patch.patch_url ? `<img src="${patch.patch_url}" alt="Patch image" />` : ""}
+          <b>${launch.name || ""}</b> ${launch.date || ""}, 
+          ${launch.location_name || ""} ${launch.pad_name || ""}<br>
+          ${launch.description || ""}<br>
+          ${launch.patch_url ? `<img src="${launch.patch_url}" alt="Patch image" />` : ""}
         </span>
       </h3>
     </div>
