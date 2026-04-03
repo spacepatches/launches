@@ -31,8 +31,9 @@ async function loadPatchOfTheDay() {
   // ===============================
 
 function renderPatchOfTheDay(launch) {
-  const container = document.getElementById("patch-video");
-
+  const container = document.getElementById("next-video");
+  const textContainer = document.getElementById("next-video-text");
+  
   // 📝 TESTO
   textContainer.innerHTML = `
   <div>
