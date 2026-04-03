@@ -1,28 +1,12 @@
 const SUPABASE_URL = "https://dnrlaowhagxjfjzkoyur.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8Rsg9hKeaur_seeAGVJd8w_H60X9ZVG";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-// ===============================
-// 🔍 YOUTUBE ID EXTRACTION
-// ===============================
-function extractYouTubeID(url) {
-  if (!url) return null;
-
-  const regex =
-    /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
-
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("patch-of-the-day-video");
+  const container = document.getElementById("patch-container");
+  const textContainer = document.getElementById("patch-text");
 
   const today = new Date();
   const todayDay = today.getDate();
@@ -45,10 +29,7 @@ async function loadPatchOfTheDay() {
   // 🔍 Trova la patch giusta confrontando giorno e mese
   const patch = data.find(item => {
     const d = new Date(item.date);
-    return (
-      d.getDate() === todayDay &&
-      d.getMonth() + 1 === todayMonth
-    );
+    return d.getDate() === todayDay && d.getMonth() + 1 === todayMonth;
   });
 
   if (!patch) {
@@ -56,44 +37,23 @@ async function loadPatchOfTheDay() {
     return;
   }
 
-  renderPatchOfTheDayVideo(launch);
-}
+  // ===============================
+  // 📝 TESTO
+  // ===============================
+  textContainer.innerHTML = `
+    <div>
+      <h3>
+        <b>${patch.name || ""}</b><br>
+        <i>${patch.description || ""}</i><br>
+        Pad: ${patch.pad_name || ""}, Location: ${patch.location_name || ""}
+      </h3>
+    </div>
+  `;
 
-
-  function renderPatchOfTheDayVideo(launch) {
-	const textContainer = document.getElementById("patch-of-day-text");
-    const container = document.getElementById("patch-of-the-day-video");
-	
-    const url = launch.vid_url;
-
-    // 📝 TESTO
-    textContainer.innerHTML = `
-      <div>
-        <h3 style="text-align: left;">
-          <span style="font-weight: normal;">
-          🛰️ Here you can relive the latest rocket launch feed available.<br>  
-          <b>${launch.lsp_name || ""}</b>
-  		${launch.rocket_full_name || ""}, 
-          <i>${launch.mission_name || ""}</i>
-          launched at ${launch.net || ""}.</span>
-        </h3>
-      </div>
-    `;
-
-
-
-  function extractYouTubeID(patch.vid_url) {
-    if (!url) return null;
-
-    const regex =
-      /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
-
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  }
-
-
-
+  // ===============================
+  // 🎥 VIDEO / LINK
+  // ===============================
+  const url = patch.vid_url;
   const ytId = extractYouTubeID(url);
 
   if (ytId) {
@@ -108,38 +68,27 @@ async function loadPatchOfTheDay() {
         allowfullscreen>
       </iframe>
     `;
-    return;
-  }
-
-  // ===============================
-  // 🐦 X.COM (TWITTER)
-  // ===============================
-  if (url.includes("x.com")) {
+  } else if (url && url.includes("vimeo.com")) {
+    const videoId = url.split("/").pop();
     container.innerHTML = `
-      <a href="${url}" target="_blank">
-        <img
-          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
-          alt="Watch broadcast"
-          width="800"
-        />
-      </a>
+      <iframe
+        width="800"
+        height="450"
+        src="https://player.vimeo.com/video/${videoId}"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
     `;
-    return;
+  } else if (url) {
+    container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
+  } else if (patch.patch_url) {
+    container.innerHTML = `<a href="${patch.patch_url}" target="_blank">View patch image</a>`;
+  } else {
+    container.innerHTML = "No video or patch available";
   }
-
-
-
-
-  let html = `
-    <h3>${patch.name}</h3>
-    <p>${patch.description}</p>
-    <p><b>Launch Site:</b> ${patch.pad_name} - ${patch.location_name}</p>
-    <img src="${patch.patch_url}" width="300">
-  `;
-
-
-
-  container.innerHTML = html;
 }
 
-waitForContainerAndRun();
+// ▶️ START
+document.addEventListener("DOMContentLoaded", () => {
+  loadPatchOfTheDay();
+});
