@@ -23,7 +23,7 @@ function extractYouTubeID(url) {
 // 🚀 LOAD DATA
 // ===============================
 async function loadPatchOfTheDay() {
-  const container = document.getElementById("latest-video");
+  const container = document.getElementById("patch-video");
 
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -35,7 +35,13 @@ async function loadPatchOfTheDay() {
 
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("*")
+    .select(`
+      name,
+      description,
+      location_name,
+      patch_url,
+      vid_url
+    `)
     .eq("day_month", dayMonth)
     .limit(1);
 
@@ -61,8 +67,8 @@ async function loadPatchOfTheDay() {
 // 🎥 RENDER VIDEO
 // ===============================
 function renderPatchOfTheDay(patch) {
-  const container = document.getElementById("latest-video");
-  const textContainer = document.getElementById("latest-video-text");
+  const container = document.getElementById("patch-video");
+  const textContainer = document.getElementById("patch-video-text");
 
   const url = patch.vid_url;
 
