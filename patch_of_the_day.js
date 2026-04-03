@@ -9,14 +9,19 @@ const supabaseClient = supabase.createClient(
 // ===============================
 // 🔍 YOUTUBE ID EXTRACTION
 // ===============================
-function extractYouTubeID(url) {
-  if (!url) return null;
+const ytId = extractYouTubeID(url);
 
-  const regex =
-    /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
-
-  const match = url.match(regex);
-  return match ? match[1] : null;
+if (ytId) {
+  container.innerHTML = `
+    <iframe
+      width="800"
+      height="450"
+      src="https://www.youtube.com/embed/${ytId}?rel=0"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  `;
 }
 
 
