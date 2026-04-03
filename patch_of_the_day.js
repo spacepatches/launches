@@ -115,4 +115,7 @@ function renderPatchOfTheDay(patch) {
 }
 
 // ▶️ START
-loadPatchOfTheDay();
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPatchOfTheDay();
+});
