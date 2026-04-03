@@ -58,7 +58,7 @@ function renderPatchOfTheDay(patch) {
   const container = document.getElementById("latest-video");
   const textContainer = document.getElementById("latest-video-text");
 
-  const url = patch.vid_url;
+  const url = data.vid_url;
 
   // 📝 TESTO
   textContainer.innerHTML = `
@@ -66,8 +66,8 @@ function renderPatchOfTheDay(patch) {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
         🛰️ Patch of the Day:<br>  
-        <b>${patch.title || ""}</b><br>
-        ${patch.description || ""}
+        <b>${data.title || ""}</b><br>
+        ${data.description || ""}
         </span>
       </h3>
     </div>
