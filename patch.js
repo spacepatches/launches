@@ -25,8 +25,6 @@ function extractYouTubeID(url) {
 async function loadPatch() {
   const container = document.getElementById("patch-video");
 
-  const nowISO = new Date().toISOString();
-
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
     .select(`
@@ -35,7 +33,8 @@ async function loadPatch() {
       patch_url,
       vid_url
     `)
-		.in("day_mont", "03-04");
+	.eq("day_month", "03-04")
+	.limit(1);
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
