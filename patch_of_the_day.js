@@ -32,8 +32,9 @@ async function loadPatchOfTheDay() {
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
     .select("name, description, pad_name, location_name, vid_url, patch_url")
-    .eq("day_month", todayKey)
-    .limit(1);
+//    .eq("day_month", todayKey)
+    .eq("day_month", "03-04")
+      .limit(1);
 
   console.log("Data:", data);
   console.log("Error:", error);
