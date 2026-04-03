@@ -25,16 +25,34 @@ function extractYouTubeID(url) {
 async function loadPatch() {
   const container = document.getElementById("patch-video");
 
+  const nowISO = new Date().toISOString();
+
   const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
+    .from("launch_ref")
     .select(`
-      name,
-      description,
-      patch_url,
+      mission_name,
+      rocket_full_name,
+      lsp_name,
+      net,
       vid_url
     `)
-	.eq("day_month", "03-04")
-	.limit(1);
+    .lte("net", nowISO)
+    .in("status_abbrev", ["Success", "Failure"])
+    .not("vid_url", "is", null)
+    .order("net", { ascending: false })
+    .limit(1); // 🔴 SOLO il più recente
+
+
+//  const { data, error } = await supabaseClient
+//   .from("patch_of_the_day")
+//    .select(`
+//      name,
+//      description,
+//      patch_url,
+//      vid_url
+//    `)
+//	.eq("day_month", "03-04")
+//	.limit(1);
 
   if (error || !data || data.length === 0) {
     container.innerHTML = "No video available";
