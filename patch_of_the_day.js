@@ -23,31 +23,39 @@ function extractYouTubeID(url) {
 // 🚀 LOAD DATA
 // ===============================
 async function loadPatchOfTheDay() {
+  const container = document.getElementById("latest-video");
 
-  const dayMonth = `${day}-${month}`; // "03-04"
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
   const month = String(today.getMonth() + 1).padStart(2, "0");
 
-  const dayMonth = `${day}-${month}`; // es: "3-4"
+  const dayMonth = `${day}-${month}`;
 
-const { data, error } = await supabaseClient
-  .from("patch_of_the_day")
-  .select("*")
-  .eq("day_month", dayMonth)
-  .limit(1);
+  console.log("dayMonth:", dayMonth);
 
-if (error) {
-  console.error(error);
-  return;
+  const { data, error } = await supabaseClient
+    .from("patch_of_the_day")
+    .select("*")
+    .eq("day_month", dayMonth)
+    .limit(1);
+
+  console.log("data:", data);
+  console.log("error:", error);
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "Errore caricamento";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    console.log("Nessuna patch per oggi");
+    container.innerHTML = "No patch available today";
+    return;
+  }
+
+  renderPatchOfTheDay(data[0]);
 }
-
-if (!data || data.length === 0) {
-  console.log("Nessuna patch per oggi");
-  return;
-}
-
-renderPatchOfTheDay(data[0]);
 
 // ===============================
 // 🎥 RENDER VIDEO
@@ -56,7 +64,7 @@ function renderPatchOfTheDay(patch) {
   const container = document.getElementById("latest-video");
   const textContainer = document.getElementById("latest-video-text");
 
-  const url = data.vid_url;
+  const url = patch.vid_url;
 
   // 📝 TESTO
   textContainer.innerHTML = `
@@ -71,9 +79,7 @@ function renderPatchOfTheDay(patch) {
     </div>
   `;
 
-  // ===============================
   // 🎥 YOUTUBE
-  // ===============================
   const ytId = extractYouTubeID(url);
 
   if (ytId) {
@@ -83,57 +89,30 @@ function renderPatchOfTheDay(patch) {
         height="450"
         src="https://www.youtube.com/embed/${ytId}"
         frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen>
       </iframe>
     `;
     return;
   }
 
-  // ===============================
-  // 🐦 X.COM (TWITTER)
-  // ===============================
-  if (url.includes("x.com")) {
-    container.innerHTML = `
-      <a href="${url}" target="_blank">
-        <img
-          src="https://spacepatches.github.io/launches/LatestLiveFeed.png"
-          alt="Watch broadcast"
-          width="800"
-        />
-      </a>
-    `;
+  // 🐦 X
+  if (url && url.includes("x.com")) {
+    container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
     return;
   }
 
-  // ===============================
   // 🎬 VIMEO
-  // ===============================
-  if (url.includes("vimeo.com")) {
+  if (url && url.includes("vimeo.com")) {
     const videoId = url.split("/").pop();
-
     container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://player.vimeo.com/video/${videoId}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+      <iframe src="https://player.vimeo.com/video/${videoId}" width="800" height="450"></iframe>
     `;
     return;
   }
 
-  // ===============================
-  // 🌐 FALLBACK
-  // ===============================
-  container.innerHTML = `
-    <a href="${url}" target="_blank">Watch video</a>
-  `;
+  // 🌐 fallback
+  container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
 }
 
-// ===============================
 // ▶️ START
-// ===============================
 loadPatchOfTheDay();
