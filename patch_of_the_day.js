@@ -53,9 +53,14 @@ async function loadPatchOfTheDay() {
     </div>
   `;
 
+}
+
   // ===============================
   // 🎥 VIDEO / LINK
   // ===============================
+
+function renderNextVideo(launch) {
+  const container = document.getElementById("patch-video");
 
   const ytId = patch.vid_url;
 
