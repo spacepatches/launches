@@ -6,122 +6,139 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 
-// ===============================
-// 🔍 YOUTUBE ID EXTRACTION
-// ===============================
-function extractYouTubeID(url) {
-  if (!url) return null;
 
-  const regex =
-    /(?:youtube\.com\/(?:watch\?v=|embed\/|live\/)|youtu\.be\/)([^&\n?#]+)/;
+// ======================
+// Date helpers
+// ======================
 
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
-// ===============================
-// 🚀 LOAD DATA
-// ===============================
-async function loadPatchOfTheDay() {
-  const container = document.getElementById("patch-video");
-
+function getTodayParts() {
   const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0");
 
-  const dayMonth = `${day}-${month}`;
-
-  console.log("dayMonth:", dayMonth);
-
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select(`
-      name,
-      description,
-      location_name,
-      patch_url,
-      vid_url
-    `)
-    .eq("day_month", dayMonth)
-    .limit(1);
-
-  console.log("data:", data);
-  console.log("error:", error);
-
-  if (error) {
-    console.error(error);
-    container.innerHTML = "Errore caricamento";
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    console.log("Nessuna patch per oggi");
-    container.innerHTML = "No patch available today";
-    return;
-  }
-
-  renderPatchOfTheDay(data[0]);
+  return {
+    day: String(today.getDate()).padStart(2, '0'),
+    month: String(today.getMonth() + 1).padStart(2, '0')
+  };
 }
 
-// ===============================
-// 🎥 RENDER VIDEO
-// ===============================
-function renderPatchOfTheDay(patch) {
-  const container = document.getElementById("patch-video");
-  const textContainer = document.getElementById("patch-video-text");
+// ======================
+// Video helpers
+// ======================
 
-  const url = patch.vid_url;
+function getYouTubeEmbed(url) {
+  try {
+    const u = new URL(url);
 
-  // 📝 TESTO
-  textContainer.innerHTML = `
-    <div>
-      <h3 style="text-align: left;">
-        <span style="font-weight: normal;">
-        🛰️ Patch of the Day:<br>  
-        <b>${patch.title || ""}</b><br>
-        ${patch.description || ""}
-        </span>
-      </h3>
-    </div>
-  `;
+    if (u.hostname.includes("youtube.com")) {
+      const id = u.searchParams.get("v");
+      return id ? `https://www.youtube.com/embed/${id}` : null;
+    }
 
-  // 🎥 YOUTUBE
-  const ytId = extractYouTubeID(url);
+    if (u.hostname.includes("youtu.be")) {
+      return `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
+    }
 
-  if (ytId) {
-    container.innerHTML = `
-      <iframe
-        width="800"
-        height="450"
-        src="https://www.youtube.com/embed/${ytId}"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
-    `;
-    return;
+    return null;
+  } catch {
+    return null;
   }
-
-  // 🐦 X
-  if (url && url.includes("x.com")) {
-    container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
-    return;
-  }
-
-  // 🎬 VIMEO
-  if (url && url.includes("vimeo.com")) {
-    const videoId = url.split("/").pop();
-    container.innerHTML = `
-      <iframe src="https://player.vimeo.com/video/${videoId}" width="800" height="450"></iframe>
-    `;
-    return;
-  }
-
-  // 🌐 fallback
-  container.innerHTML = `<a href="${url}" target="_blank">Watch video</a>`;
 }
 
-// ▶️ START
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadPatchOfTheDay();
-});
+function isX(url) {
+  return url.includes("x.com") || url.includes("twitter.com");
+}
+
+// ======================
+// Main
+// ======================
+
+async function loadPatchOfTheDay() {
+  const container = document.getElementById("container");
+
+  try {
+    console.log("Loading patch...");
+
+    const { day, month } = getTodayParts();
+
+    // Prendiamo solo le date del mese corrente (ottimizzazione)
+    const { data, error } = await supabaseClient
+      .from("patch_of_the_day")
+      .select("*")
+      .like("date", `%-${month}-%`);
+
+    if (error) throw error;
+
+    console.log("Records fetched:", data.length);
+
+    // Match preciso giorno + mese
+    const patch = data.find(p => {
+      const [, m, d] = p.date.split("-");
+      return m === month && d === day;
+    });
+
+    if (!patch) {
+      container.innerHTML = "<p>No patch found for today</p>";
+      return;
+    }
+
+    // ======================
+    // Video rendering
+    // ======================
+
+    let videoHTML = "";
+
+    if (patch.vid_url) {
+      const ytEmbed = getYouTubeEmbed(patch.vid_url);
+
+      if (ytEmbed) {
+        videoHTML = `
+          <iframe width="800" 
+            src="${ytEmbed}"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        `;
+      } else if (isX(patch.vid_url)) {
+        videoHTML = `
+          <p>
+            <a href="${patch.vid_url}" target="_blank">
+              Watch on X
+            </a>
+          </p>
+        `;
+      } else {
+        videoHTML = `
+          <p>
+            <a href="${patch.vid_url}" target="_blank">
+              Watch video
+            </a>
+          </p>
+        `;
+      }
+    }
+
+    // ======================
+    // Rendering
+    // ======================
+
+    container.innerHTML = `
+      <h3><b>${patch.agency}</b> ${patch.rocket} <i>${patch.mission}</i></h3>
+      <p>${patch.location_name} (${patch.pad_name})</p>
+      <p><span style="font-weight: normal;">${patch.description}</span></p>
+      <img src="${patch.patch_url}" style="width:400px;" alt="patch">
+      ${videoHTML}
+    `;
+
+    console.log("Patch loaded ✅");
+
+  } catch (err) {
+    console.error("ERROR:", err);
+    document.getElementById("container").innerHTML =
+      "<p>Error loading data</p>";
+  }
+}
+
+// Avvio
+loadPatchOfTheDay();
