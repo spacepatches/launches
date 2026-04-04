@@ -43,6 +43,7 @@ function getYouTubeEmbed(url) {
   }
 }
 
+
 function isX(url) {
   return url.includes("x.com") || url.includes("twitter.com");
 }
@@ -91,7 +92,7 @@ async function loadPatchOfTheDay() {
 
       if (ytEmbed) {
         videoHTML = `
-          <iframe width="560" height="315"
+          <iframe width="800" height="450"
             src="${ytEmbed}"
             title="YouTube video player"
             frameborder="0"
@@ -124,9 +125,9 @@ async function loadPatchOfTheDay() {
 
     container.innerHTML = `
       <h3>${patch.name}</h3>
-      <p><strong>${patch.location_name}</strong></p>
-      <p>${patch.description}</p>
-      <img src="${patch.patch_url}" alt="patch">
+      <p><b>${patch.location_name}</b></p>
+      <p><span style="font-weight: normal;">${patch.description}</span></p>
+      <img src="${patch.patch_url}" width="600" alt="patch">
       ${videoHTML}
     `;
 
