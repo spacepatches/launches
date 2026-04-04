@@ -8,28 +8,29 @@ const supabaseClient = supabase.createClient(
 
 
 // ======================
-// Utility
+// Date helpers
 // ======================
 
-function getTodayKey() {
+function getTodayParts() {
   const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  return `${day}-${month}`;
+
+  return {
+    day: String(today.getDate()).padStart(2, '0'),
+    month: String(today.getMonth() + 1).padStart(2, '0')
+  };
 }
 
-function extractDayMonth(dateString) {
-  // formato: YYYY-DD-MM
-  const parts = dateString.split("-");
-  return `${parts[1]}-${parts[2]}`;
-}
+// ======================
+// Video helpers
+// ======================
 
 function getYouTubeEmbed(url) {
   try {
     const u = new URL(url);
 
     if (u.hostname.includes("youtube.com")) {
-      return `https://www.youtube.com/embed/${u.searchParams.get("v")}`;
+      const id = u.searchParams.get("v");
+      return id ? `https://www.youtube.com/embed/${id}` : null;
     }
 
     if (u.hostname.includes("youtu.be")) {
@@ -56,16 +57,23 @@ async function loadPatchOfTheDay() {
   try {
     console.log("Loading patch...");
 
+    const { day, month } = getTodayParts();
+
+    // Prendiamo solo le date del mese corrente (ottimizzazione)
     const { data, error } = await supabaseClient
       .from("patch_of_the_day")
-      .select("*");
+      .select("*")
+      .like("date", `%-${month}-%`);
 
     if (error) throw error;
 
-    const todayKey = getTodayKey();
-    console.log("Today key:", todayKey);
+    console.log("Records fetched:", data.length);
 
-    const patch = data.find(p => extractDayMonth(p.date) === todayKey);
+    // Match preciso giorno + mese
+    const patch = data.find(p => {
+      const [, m, d] = p.date.split("-");
+      return m === month && d === day;
+    });
 
     if (!patch) {
       container.innerHTML = "<p>No patch found for today</p>";
@@ -73,7 +81,7 @@ async function loadPatchOfTheDay() {
     }
 
     // ======================
-    // Rendering
+    // Video rendering
     // ======================
 
     let videoHTML = "";
@@ -85,16 +93,34 @@ async function loadPatchOfTheDay() {
         videoHTML = `
           <iframe width="560" height="315"
             src="${ytEmbed}"
+            title="YouTube video player"
             frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
         `;
       } else if (isX(patch.vid_url)) {
-        videoHTML = `<p><a href="${patch.vid_url}" target="_blank">Watch on X</a></p>`;
+        videoHTML = `
+          <p>
+            <a href="${patch.vid_url}" target="_blank">
+              Watch on X
+            </a>
+          </p>
+        `;
       } else {
-        videoHTML = `<p><a href="${patch.vid_url}" target="_blank">Watch video</a></p>`;
+        videoHTML = `
+          <p>
+            <a href="${patch.vid_url}" target="_blank">
+              Watch video
+            </a>
+          </p>
+        `;
       }
     }
+
+    // ======================
+    // Rendering
+    // ======================
 
     container.innerHTML = `
       <h3>${patch.name}</h3>
@@ -107,8 +133,9 @@ async function loadPatchOfTheDay() {
     console.log("Patch loaded ✅");
 
   } catch (err) {
-    console.error(err);
-    container.innerHTML = "<p>Error loading data</p>";
+    console.error("ERROR:", err);
+    document.getElementById("container").innerHTML =
+      "<p>Error loading data</p>";
   }
 }
 
