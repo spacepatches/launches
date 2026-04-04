@@ -92,7 +92,7 @@ async function loadPatchOfTheDay() {
 
       if (ytEmbed) {
         videoHTML = `
-          <iframe width="800" height="450"
+          <iframe width="1000" 
             src="${ytEmbed}"
             title="YouTube video player"
             frameborder="0"
@@ -127,7 +127,7 @@ async function loadPatchOfTheDay() {
       <h3>${patch.name}</h3>
       <p><b>${patch.location_name}</b></p>
       <p><span style="font-weight: normal;">${patch.description}</span></p>
-      <img src="${patch.patch_url}" width="600" alt="patch">
+      <img src="${patch.patch_url}" style="width:400px;" alt="patch">
       ${videoHTML}
     `;
 
