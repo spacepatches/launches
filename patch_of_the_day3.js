@@ -61,10 +61,9 @@ async function loadPatchOfTheDay() {
     const { day, month } = getTodayParts();
 
     // Prendiamo solo le date del mese corrente (ottimizzazione)
-    const { data, error } = await supabaseClient
-      .from("patch_of_the_day")
-      .select("*")
-      .like("date", `%-${month}-%`);
+  const { data, error } = await supabaseClient
+    .from("patch_of_the_day")
+    .select("*");
 
     if (error) throw error;
 
@@ -123,14 +122,21 @@ async function loadPatchOfTheDay() {
     // Rendering
     // ======================
 
-    container.innerHTML = `
-      <h3><b>${patch.agency}</b> ${patch.rocket} <i>${patch.mission}</i></h3>
-      <p>${patch.location_name} (${patch.pad_name})</p>
-      <p><span style="font-weight: normal;">${patch.description}</span></p>
-      <img src="${patch.patch_url}" style="width:400px;" alt="patch">
-      ${videoHTML}
-    `;
+container.innerHTML = `
+  <h3>
+    <b>${patch.agency || ""}</b>
+    ${patch.rocket || ""}
+    <i>${patch.mission || ""}</i>
+  </h3>
 
+  <p>${patch.location_name || ""} (${patch.pad_name || ""})</p>
+
+  <p>${patch.description || ""}</p>
+
+  <img src="${patch.patch_url}" style="width:400px;" alt="patch">
+
+  ${videoHTML}
+`;
     console.log("Patch loaded ✅");
 
   } catch (err) {
