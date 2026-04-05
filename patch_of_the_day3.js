@@ -159,8 +159,7 @@ container.innerHTML = `
 
   <p>${patch.description || ""}</p>
 
-  <img src="${patch.patch_url}" style="width:400px;" alt="patch">
-
+  <img src="${patch.patch_url}" style="width:400px; display:block; margin:20px auto;" alt="patch">
   ${videoHTML}
 `;
     console.log("Patch loaded ✅");
