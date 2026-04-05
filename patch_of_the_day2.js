@@ -108,13 +108,26 @@ async function loadPatchOfTheDay() {
 
 	if (patch.link) {
 	  linkHTML = `
-	    <p style="margin-top:15px;">
+	    <p style="margin-top:15px;">Do you want lear more about this mission, read interesting articles, watch pictures and more videos?  
 	      <a href="${patch.link}" target="_blank">
-	        Learn more about this mission...
+	       click here
 	      </a>
 	    </p>
 	  `;
 	}
+
+	let presskitHTML = "";
+
+	if (patch.press_kit) {
+	  presskitHTML = `
+	    <p style="margin-top:15px;">Here you can read the press kit about this mission:  
+	      <a href="${patch.link}" target="_blank">
+	       click here
+	      </a>
+	    </p>
+	  `;
+	}
+
 
     // ======================
     // Video rendering
@@ -165,8 +178,8 @@ container.innerHTML = `
 <p>${patch.mission || ""} (${patch.rocket || ""})</p>
 <p>Launched from ${patch.location_name} (${patch.pad_name})</p>
 <p>${patch.description || ""}</p>
-<p><a href=""${patch.link || ""}" Learn more... </a></p>
-  ${linkHTML}
+  ${linkHTML} 
+  ${presskitHTML}
   ${videoHTML}
 `;
     console.log("Patch loaded ✅");
