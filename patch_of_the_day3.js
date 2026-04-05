@@ -146,20 +146,17 @@ async function loadPatchOfTheDay() {
     // ======================
 
 container.innerHTML = `
+
+<p><img src="${patch.patch_url}" style="width:400px; display:block; margin:20px auto;" alt="patch"></p>
+<p>${formatDatePretty(patch.date)} – ${patch.location_name} (${patch.pad_name})</p>
 <p>
-  ${formatDatePretty(patch.date)} – 
-  ${patch.location_name} (${patch.pad_name})
-</p>
-
-  <h3>
-    <b>${patch.agency || ""}</b>
-    ${patch.rocket || ""}
+	<b>${patch.agency || ""}</b>
+	${patch.rocket || ""}
     <i>${patch.mission || ""}</i>
-  </h3>
+  </p>
 
-  <p>${patch.description || ""}</p>
+<p>${patch.description || ""}</p>
 
-  <img src="${patch.patch_url}" style="width:400px; display:block; margin:20px auto;" alt="patch">
   ${videoHTML}
 `;
     console.log("Patch loaded ✅");
