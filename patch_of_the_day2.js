@@ -108,10 +108,11 @@ async function loadPatchOfTheDay() {
 
 	if (patch.link) {
 	  linkHTML = `
-	    <p style="margin-top:15px;">Explore mission context and background, updates, specifications and new images.  
+	    <p style="margin-top:15px;">
 	      <a href="${patch.link}" target="_blank">
 	       Official website
 	      </a>
+		: explore mission context and background, updates, specifications and new images.  
 	    </p>
 	  `;
 	}
@@ -120,10 +121,11 @@ async function loadPatchOfTheDay() {
 
 	if (patch.press_kit) {
 	  presskitHTML = `
-	    <p style="margin-top:15px;">Access official documents, payload details, and mission objectives.
+	    <p style="margin-top:15px;">
 	      <a href="${patch.link}" target="_blank">
 	       Press kit
 	      </a>
+		: access official documents, payload details, and mission objectives.
 	    </p>
 	  `;
 	}
