@@ -103,6 +103,19 @@ async function loadPatchOfTheDay() {
       return;
     }
 
+
+	let linkHTML = "";
+
+	if (patch.link) {
+	  linkHTML = `
+	    <p style="margin-top:15px;">
+	      <a href="${patch.link}" target="_blank">
+	        Learn more about this mission...
+	      </a>
+	    </p>
+	  `;
+	}
+
     // ======================
     // Video rendering
     // ======================
@@ -152,7 +165,8 @@ container.innerHTML = `
 <p>${patch.mission || ""} (${patch.rocket || ""})</p>
 <p>Launched from ${patch.location_name} (${patch.pad_name})</p>
 <p>${patch.description || ""}</p>
-
+<p><a href=""${patch.link || ""}" Learn more... </a></p>
+  ${linkHTML}
   ${videoHTML}
 `;
     console.log("Patch loaded ✅");
