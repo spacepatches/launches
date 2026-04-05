@@ -11,6 +11,11 @@ const supabaseClient = supabase.createClient(
 // Date helpers
 // ======================
 
+function getDateFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("date"); // es: "1991-04-05"
+}
+
 function formatDatePretty(dateString) {
   const date = new Date(dateString);
 
@@ -81,25 +86,36 @@ async function loadPatchOfTheDay() {
   try {
     console.log("Loading patch...");
 
-    const { day, month } = getTodayParts();
+    const urlDate = getDateFromURL();
 
-    // Prendiamo solo le date del mese corrente (ottimizzazione)
-  const { data, error } = await supabaseClient
-    .from("patch_of_the_day")
-    .select("*");
+    let day, month;
+
+    if (urlDate) {
+      console.log("Using date from URL:", urlDate);
+
+      const [year, m, d] = urlDate.split("-");
+      day = d;
+      month = m;
+
+    } else {
+      const today = getTodayParts();
+      day = today.day;
+      month = today.month;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("patch_of_the_day")
+      .select("*");
 
     if (error) throw error;
 
-    console.log("Records fetched:", data.length);
-
-    // Match preciso giorno + mese
     const patch = data.find(p => {
       const [, m, d] = p.date.split("-");
       return m === month && d === day;
     });
 
     if (!patch) {
-      container.innerHTML = "<p>No patch found for today</p>";
+      container.innerHTML = "<p>No patch found for this date</p>";
       return;
     }
 
