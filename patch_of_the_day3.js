@@ -11,6 +11,29 @@ const supabaseClient = supabase.createClient(
 // Date helpers
 // ======================
 
+function formatDatePretty(dateString) {
+  const date = new Date(dateString);
+
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const month = date.toLocaleString('en-US', { month: 'long' });
+
+  // Ordinal suffix (st, nd, rd, th)
+  function getOrdinal(n) {
+    if (n > 3 && n < 21) return 'th';
+    switch (n % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  }
+
+  return `${day}${getOrdinal(day)} ${month} ${year}`;
+}
+
+
 function getTodayParts() {
   const today = new Date();
 
@@ -91,7 +114,7 @@ async function loadPatchOfTheDay() {
 
       if (ytEmbed) {
         videoHTML = `
-          <iframe width="800" 
+          <iframe width="800" height="450"
             src="${ytEmbed}"
             title="YouTube video player"
             frameborder="0"
@@ -123,13 +146,16 @@ async function loadPatchOfTheDay() {
     // ======================
 
 container.innerHTML = `
+<p>
+  ${formatDatePretty(patch.date)} – 
+  ${patch.location_name} (${patch.pad_name})
+</p>
+
   <h3>
     <b>${patch.agency || ""}</b>
     ${patch.rocket || ""}
     <i>${patch.mission || ""}</i>
   </h3>
-
-  <p>${patch.location_name || ""} (${patch.pad_name || ""})</p>
 
   <p>${patch.description || ""}</p>
 
