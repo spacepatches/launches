@@ -42,11 +42,20 @@ async function loadDynamicText() {
     .from("patch_of_the_day")
     .select("acengy, mission, date");
 
-  if (error) {
-    console.error("Supabase error:", error);
-    container.innerHTML = "Error loading data";
-    return;
-  }
+if (error) {
+  console.error("Supabase FULL ERROR:", JSON.stringify(error, null, 2));
+  container.innerHTML = "Error loading data";
+  return;
+}
+
+const { data, error } = await supabaseClient
+  .from("patch_of_the_day")
+  .select("*")
+  .limit(1);
+
+console.log("DATA:", data);
+console.log("ERROR:", error);
+
 
   // ===============================
   // 🔍 FILTRO per giorno/mese
