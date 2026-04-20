@@ -37,38 +37,27 @@ async function loadDynamicText() {
 
   console.log("Targets:", targets);
 
-  // 🔥 fetch dati
+  // 🔥 query semplice (NO SQL avanzato)
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("acengy, mission, date");
+    .select("*");
 
-if (error) {
-  console.error("Supabase FULL ERROR:", JSON.stringify(error, null, 2));
-  container.innerHTML = "Error loading data";
-  return;
-}
-
-const { data, error } = await supabaseClient
-  .from("patch_of_the_day")
-  .select("*")
-  .limit(1);
-
-console.log("DATA:", data);
-console.log("ERROR:", error);
-
+  if (error) {
+    console.error("Supabase error:", error);
+    container.innerHTML = "Error loading data";
+    return;
+  }
 
   // ===============================
-  // 🔍 FILTRO per giorno/mese
+  // 🔍 FILTRO lato JS
   // ===============================
   const filtered = data.filter(item => {
-    // 👉 parsing sicuro (no problemi timezone)
     const d = new Date(item.date + "T00:00:00");
-    const key = formatDayMonth(d);
-    return targets.includes(key);
+    return targets.includes(formatDayMonth(d));
   });
 
   // ===============================
-  // 🧠 ORDINE (oggi → +1 → +2)
+  // 🧠 ORDINE corretto
   // ===============================
   const ordered = targets.map(t =>
     filtered.find(item => {
@@ -78,7 +67,7 @@ console.log("ERROR:", error);
   ).filter(Boolean);
 
   // ===============================
-  // 📝 STRINGA FINALE
+  // 📝 OUTPUT
   // ===============================
   const text = ordered
     .map(item => `${item.acengy} ${item.mission}`)
@@ -90,7 +79,7 @@ console.log("ERROR:", error);
 }
 
 // ===============================
-// ⏳ WAIT FOR BLOGGER DOM
+// ⏳ BLOGGER SAFE
 // ===============================
 function waitForContainer() {
   const el = document.getElementById("dynamic-text");
