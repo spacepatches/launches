@@ -12,7 +12,7 @@ const supabaseClient = supabase.createClient(
 function formatDayMonth(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
-  return `${month}-${day}`; // ⚠️ formato Postgres MM-DD
+  return `${month}-${day}`;
 }
 
 // ===============================
@@ -29,65 +29,67 @@ async function loadDynamicText() {
   tomorrow.setDate(today.getDate() + 1);
   dayAfter.setDate(today.getDate() + 2);
 
-  const dates = [
+  const targets = [
     formatDayMonth(today),
     formatDayMonth(tomorrow),
     formatDayMonth(dayAfter)
   ];
 
-  console.log("Searching for:", dates);
+  console.log("Targets:", targets);
 
-  // 🔥 query con filtro su giorno-mese
+  // 🔥 PRENDI TUTTI I DATI
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("agency, mission, date")
-    .or(
-      dates.map(d => `date::text.like.%-${d}`).join(",")
-    );
+    .select("agency, mission, date");
 
   if (error) {
-    console.error(error);
+    console.error("Supabase error:", error);
     container.innerHTML = "Error loading data";
     return;
   }
 
-  if (!data || data.length === 0) {
-    container.innerHTML = "No data available";
-    return;
-  }
+  // ===============================
+  // 🔍 FILTRO
+  // ===============================
+  const filtered = data.filter(item => {
+    const d = new Date(item.date);
+    const key = formatDayMonth(d);
+    return targets.includes(key);
+  });
 
   // ===============================
-  // 🧠 MATCH PRECISO (giorno/mese)
+  // 🧠 ORDINE CORRETTO (oggi → +1 → +2)
   // ===============================
-  const filtered = dates.map(d => {
-    return data.find(item => {
-      const dbDate = new Date(item.date);
-      return formatDayMonth(dbDate) === d;
-    });
-  }).filter(Boolean);
+  const ordered = targets.map(t =>
+    filtered.find(item => {
+      const d = new Date(item.date);
+      return formatDayMonth(d) === t;
+    })
+  ).filter(Boolean);
 
   // ===============================
-  // 📝 BUILD STRING
+  // 📝 STRINGA FINALE
   // ===============================
-  const text = filtered
+  const text = ordered
     .map(item => `${item.agency} ${item.mission}`)
     .join(", ");
 
-  container.innerHTML = text;
+  container.innerHTML = text || "No data available";
 }
 
 // ===============================
-// ▶️ START (safe per Blogger)
+// ▶️ START (Blogger-safe)
 // ===============================
-function waitForTextContainer() {
+function waitForContainer() {
   const el = document.getElementById("dynamic-text");
 
   if (!el) {
-    setTimeout(waitForTextContainer, 300);
+    console.log("Container not found, retrying...");
+    setTimeout(waitForContainer, 300);
     return;
   }
 
   loadDynamicText();
 }
 
-waitForTextContainer();
+waitForContainer();
