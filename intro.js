@@ -71,7 +71,7 @@ async function loadDynamicText() {
   // 📝 STRINGA FINALE
   // ===============================
   const text = ordered
-    .map(item => `${item.agency} ${item.mission}`)
+    .map(item => `${item.acengy} ${item.mission}`)
     .join(", ");
 
   container.innerHTML = text || "No data available";
