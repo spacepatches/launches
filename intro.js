@@ -37,10 +37,10 @@ async function loadDynamicText() {
 
   console.log("Targets:", targets);
 
-  // 🔥 PRENDI TUTTI I DATI
+  // 🔥 fetch dati
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("agency, mission, date");
+    .select("acengy, mission, date");
 
   if (error) {
     console.error("Supabase error:", error);
@@ -49,20 +49,21 @@ async function loadDynamicText() {
   }
 
   // ===============================
-  // 🔍 FILTRO
+  // 🔍 FILTRO per giorno/mese
   // ===============================
   const filtered = data.filter(item => {
-    const d = new Date(item.date);
+    // 👉 parsing sicuro (no problemi timezone)
+    const d = new Date(item.date + "T00:00:00");
     const key = formatDayMonth(d);
     return targets.includes(key);
   });
 
   // ===============================
-  // 🧠 ORDINE CORRETTO (oggi → +1 → +2)
+  // 🧠 ORDINE (oggi → +1 → +2)
   // ===============================
   const ordered = targets.map(t =>
     filtered.find(item => {
-      const d = new Date(item.date);
+      const d = new Date(item.date + "T00:00:00");
       return formatDayMonth(d) === t;
     })
   ).filter(Boolean);
@@ -74,11 +75,13 @@ async function loadDynamicText() {
     .map(item => `${item.acengy} ${item.mission}`)
     .join(", ");
 
+  console.log("Final text:", text);
+
   container.innerHTML = text || "No data available";
 }
 
 // ===============================
-// ▶️ START (Blogger-safe)
+// ⏳ WAIT FOR BLOGGER DOM
 // ===============================
 function waitForContainer() {
   const el = document.getElementById("dynamic-text");
@@ -92,4 +95,5 @@ function waitForContainer() {
   loadDynamicText();
 }
 
+// ▶️ START
 waitForContainer();
