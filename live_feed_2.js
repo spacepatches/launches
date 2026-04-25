@@ -22,7 +22,7 @@ async function loadDynamicText() {
   // 🔥 query: UNA sola riga
   const { data, error } = await supabaseClient
     .from("patch_of_the_day")
-    .select("mission, agency, rocket, date")
+    .select("mission, acengy, rocket, date")
     .like("date", `%-${todayMD}`)
     .single();
 
@@ -68,7 +68,7 @@ async function loadDynamicText() {
     Latest news ${formatFullDate(today)}<br>
     👉 Step into the history of spaceflight with <b>"Patch of the day"</b>, 
     a new mission every day. Watch the launch, explore the details, and fuel your passion for space. 
-    Today's story: <b>${data.mission}</b> launched by ${data.agency} 
+    Today's story: <b>${data.mission}</b> launched by ${data.acengy} 
     the ${formatFullDate(missionDate)} on ${data.rocket}.
   `;
 
