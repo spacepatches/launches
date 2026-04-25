@@ -73,6 +73,7 @@ async function loadDynamicText() {
   `;
 
   container.innerHTML = text;
+  container.innerHTML = "TEST OK";
 }
 
 
