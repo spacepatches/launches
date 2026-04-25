@@ -8,8 +8,8 @@ const supabaseClient = supabase.createClient(
 
 
 async function loadDynamicText() {
-  const container = document.getElementById("dynamic-text");
-
+  //const container = document.getElementById("dynamic-text");
+  const textContainer = document.getElementById("dynamic-text");
   const today = new Date();
 
   // 📅 formato MM-DD
@@ -72,8 +72,23 @@ async function loadDynamicText() {
     the ${formatFullDate(missionDate)} on ${data.rocket}.
   `;
 
-  container.innerHTML = text;
-  container.innerHTML = "TEST OK";
+  //container.innerHTML = text;
+  //container.innerHTML = "TEST OK";
+
+  textContainer.innerHTML = `
+    <div>
+      <h3 style="text-align: left;">
+        <span style="font-weight: normal;">
+        Latest news ${formatFullDate(today)}<br>  
+  👉 Step into the history of spaceflight with <b>"Patch of the day"</b>, 
+  a new mission every day. Watch the launch, explore the details, and fuel your passion for space. 
+  Today's story: <b>${data.mission}</b> launched by ${data.acengy} 
+  the ${formatFullDate(missionDate)} on ${data.rocket}.</span>
+      </h3>
+    </div>
+  `
+
+
 }
 
 
