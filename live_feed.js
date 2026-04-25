@@ -63,9 +63,9 @@ async function loadDynamicText() {
       <h3 style="text-align: left;">
         <span style="font-weight: normal;">
         <b>Today latest news</b><br>  
-        👉 Step into the history of spaceflight with the <b>Patch of the day</b>, 
+        Step into the history of spaceflight with the <b>Patch of the day</b>, 
         a new mission every day.<br>Watch the launch, explore the details, and fuel your passion for space.<br>
-        Today's story: <a href="https://spacepatches.blogspot.com/p/patch-of-day_5.html">${data.mission}</a> launched by ${data.acengy} 
+        👉 Today's story: <a href="https://spacepatches.blogspot.com/p/patch-of-day_5.html">${data.mission}</a> launched by ${data.acengy} 
         the ${formatFullDate(missionDate)} on ${data.rocket}.
         </span>
       </h3>
