@@ -107,7 +107,7 @@ async function loadLatestLaunchVideo() {
       vid_url
     `)
     .lte("net", nowISO)
-    .in("status_abbrev", ["Success", "Failure", "Deployed"])
+    .in("status_abbrev", ["Success", "Failure", "Deployed", "In Flight"])
     .not("vid_url", "is", null)
     .order("net", { ascending: false })
     .limit(1); // 🔴 SOLO il più recente
