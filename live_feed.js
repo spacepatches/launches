@@ -31,7 +31,7 @@ async function loadDynamicText() {
   console.log("ERROR:", error);
 
   if (error || !data) {
-    textContainer.innerHTML = "No data available";
+    textContainer.innerHTML = " ";
     return;
   }
 
